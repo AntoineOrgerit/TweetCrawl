@@ -14,6 +14,7 @@ import com.tweetcrawl.ontology.Crawl;
 import jade.content.ContentManager;
 import jade.content.lang.Codec.CodecException;
 import jade.content.onto.OntologyException;
+import jade.content.onto.basic.Action;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
@@ -68,7 +69,8 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 		if (msg != null) {
 			try {
 				ContentManager cm = myAgent.getContentManager();
-				Crawl crawl = (Crawl) cm.extractContent(msg);
+				Action action = (Action) cm.extractContent(msg);
+				Crawl crawl = (Crawl) action.getAction();
 				term = crawl.getTerm();
 			} catch (CodecException | OntologyException e) {
 				logger.severe("Exception durant la réception du terme sur TweetCrawlerAgent : " + e);

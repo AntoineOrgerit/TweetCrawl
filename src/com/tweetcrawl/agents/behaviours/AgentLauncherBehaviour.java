@@ -4,11 +4,12 @@ import java.util.Scanner;
 
 import com.tweetcrawl.ontology.Crawl;
 
-import jade.content.ContentElementList;
+import jade.content.AgentAction;
 import jade.content.lang.Codec;
 import jade.content.lang.Codec.CodecException;
 import jade.content.onto.Ontology;
 import jade.content.onto.OntologyException;
+import jade.content.onto.basic.Action;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.SimpleBehaviour;
@@ -66,12 +67,11 @@ public class AgentLauncherBehaviour extends SimpleBehaviour {
 		msg.addReceiver(new AID("TweetCrawlerAgent", AID.ISLOCALNAME));
 		msg.setLanguage(codec.getName());
 		msg.setOntology(ontology.getName());
-		ContentElementList cel = new ContentElementList();
 		Crawl crawl = new Crawl();
 		crawl.setTerm(term);
-		cel.add(crawl);
+		Action action = new Action(myAgent.getAID(), (AgentAction) crawl);
 		try {
-			myAgent.getContentManager().fillContent(msg, cel);
+			myAgent.getContentManager().fillContent(msg, action);
 			myAgent.send(msg);
 		} catch (CodecException | OntologyException e) {
 			logger.severe("Exception durant l'envoi du terme vers le TweetCrawlerAgent : " + e);

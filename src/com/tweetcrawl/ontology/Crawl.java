@@ -1,12 +1,12 @@
 package com.tweetcrawl.ontology;
 
-import jade.content.Predicate;
+import jade.content.AgentAction;
 
 /**
- * Représente un prédicat utilisé pour demander une action crawl au
+ * Représente une action utilisée pour demander une action crawl au
  * TweetCrawler.
  */
-public class Crawl implements Predicate {
+public class Crawl implements AgentAction {
 
 	private static final long serialVersionUID = 1L;
 	private String term;
