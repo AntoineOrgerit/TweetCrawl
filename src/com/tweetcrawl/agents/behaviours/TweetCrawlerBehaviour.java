@@ -73,7 +73,7 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 				Crawl crawl = (Crawl) action.getAction();
 				term = crawl.getTerm();
 			} catch (CodecException | OntologyException e) {
-				logger.severe("Exception durant la r�ception du terme sur TweetCrawlerAgent : " + e);
+				logger.severe("Exception durant la reception du terme sur TweetCrawlerAgent : " + e);
 			}
 		}
 		return term;
