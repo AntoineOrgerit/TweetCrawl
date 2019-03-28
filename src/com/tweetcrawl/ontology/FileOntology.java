@@ -25,7 +25,7 @@ public class FileOntology extends Ontology {
             PredicateSchema ps = (PredicateSchema) this.getSchema(FILE);
             ps.add(NAME,(PrimitiveSchema)this.getSchema(BasicOntology.STRING));
         } catch (OntologyException oe){
-            log.severe("Exception durant la generation de l'ontologie !");
+            log.severe("Exception during generation of the ontology !");
         }
     }
 

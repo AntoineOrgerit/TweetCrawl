@@ -8,7 +8,7 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.util.Logger;
 
 /**
- * Manager de l'enregistrement et la consommation de services.
+ * Manager of the services' registering and consumption 
  */
 public class DFServiceManager {
 	
@@ -17,10 +17,10 @@ public class DFServiceManager {
 	private DFServiceManager() {}
 
 	/**
-	 * Permets d'enregistrer un service.
+	 * Allows to register a service
 	 * 
-	 * @param agent - l'agent qui enregistre le service
-	 * @param serviceType - le type de service proposé
+	 * @param agent 	agent registering the service
+	 * @param serviceType  	type of offered service
 	 */
 	public static void register(Agent agent, String serviceType) {
 		DFAgentDescription dfd = new DFAgentDescription();
@@ -32,16 +32,16 @@ public class DFServiceManager {
         try {  
             DFService.register(agent, dfd);  
         } catch (FIPAException fe) {
-        	logger.severe("Exception durant l'enregistrement du service " + serviceType + " de l'agent " + agent.getLocalName() + " : " + fe);
+        	logger.severe("Exception while trying to register the service " + serviceType + " of the agent " + agent.getLocalName() + " : " + fe);
         }
 	}
 	
 	/**
-	 * Permets d'obtenir les AIDs des agents proposant un service précis
+	 * Allows to get the AIDs of agents offering a specifeied service 
 	 * 
-	 * @param agent - l'agent demandant un service
-	 * @param serviceType - le type de service demandé
-	 * @return Les agents proposant le service demandé sous la forme d'un tableau de DFAgentDescription
+	 * @param agent  	agent requesting the service
+	 * @param serviceType 	type of resquested service
+	 * @return 		DFAgentDescriptions array containing the agents offering the requested service
 	 */
 	public static DFAgentDescription[] getAgentsForService(Agent agent, String serviceType) {
 		DFAgentDescription dfd = new DFAgentDescription();
@@ -52,7 +52,7 @@ public class DFServiceManager {
 		try {
 			agents = DFService.search(agent, dfd);
 		} catch (FIPAException fe) {
-        	logger.severe("Exception durant l'enregistrement du service " + serviceType + " de l'agent " + agent.getLocalName() + " : " + fe);
+        	logger.severe("Exception while trying to register the service " + serviceType + " of the agent " + agent.getLocalName() + " : " + fe);
         }
 		return agents;
 	}

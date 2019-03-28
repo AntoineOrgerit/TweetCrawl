@@ -28,7 +28,7 @@ import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
 /**
- * Représente le comportement de l'agent TweetCrawler.
+ * Behaviour of the TweetCrawler agent
  */
 public class TweetCrawlerBehaviour extends CyclicBehaviour {
 
@@ -36,10 +36,10 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 	private Logger logger;
 
 	/**
-	 * Constructeur du comportement.
+	 * Constructor of the behaviour
 	 * 
-	 * @param agent  - l'agent TweetCrawler auquel lié le comportement
-	 * @param logger - le logger à utiliser pour les messages d'erreurs
+	 * @param agent  	corresponding TweetCrawler agent 
+	 * @param logger 	logger used to display errors
 	 */
 	public TweetCrawlerBehaviour(Agent agent, Logger logger) {
 		super(agent);
@@ -59,9 +59,9 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 	}
 
 	/**
-	 * Permets d'extraire le terme à rechercher à partir des messages re�us.
-	 * 
-	 * @return Le terme à rechercher sous la forme d'un String.
+	 * Allows to extract the term to search from received messages
+	 *
+	 * @return 		String containing the term to search
 	 */
 	private String getTermToCrawl() {
 		ACLMessage msg = myAgent.receive();
@@ -73,18 +73,17 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 				Crawl crawl = (Crawl) action.getAction();
 				term = crawl.getTerm();
 			} catch (CodecException | OntologyException e) {
-				logger.severe("Exception durant la réception du terme sur TweetCrawlerAgent : " + e);
+				logger.severe("Exception while searching for the term on TweetCrawlerAgent : " + e);
 			}
 		}
 		return term;
 	}
 
 	/**
-	 * Permets de générer la requête vers l'API de Twitter.
+	 * Allows to generate the request to send to Twitter's API
 	 * 
-	 * @param term - le terme à rechercher par le biais de la requête sous la forme
-	 *             d'un String
-	 * @return La requête à exêcuter sous la forme d'une Query.
+	 * @param term 		String containing the term to be searched through the request
+	 * @return 		Query containing the request to be executed
 	 */
 	private Query generateQuery(String term) {
 		Query query = new Query(term);
@@ -94,12 +93,10 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 	}
 
 	/**
-	 * Permets d'obtenir la date d'il y a X jours.
+	 * Allows to get the date X days ago
 	 * 
-	 * @param days - le nombre X de jours précédant la date actuelle sous la forme
-	 *             d'un entier
-	 * @return La date d'il y a X jours sous la forme d'un String formatté
-	 *         YYYY-MM-dd.
+	 * @param days 		Number X of days
+	 * @return 		String containing the date X days ago, formated as YYYY-MM-dd
 	 */
 	private String getDateFromXDays(int days) {
 		LocalDate date = LocalDate.now().minusDays(days);
@@ -108,10 +105,10 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 	}
 
 	/**
-	 * Permets d'exécuter la requête vers l'API de Twitter.
-	 * 
-	 * @param query - la requête à exêcuter sour la forme d'une Query
-	 * @return Le résultat de la requ�te sous la forme d'un QueryResult.
+	 * Allows to execute a request using Twitter's API
+	 *
+	 * @param query 	Query request to be executed
+	 * @return 		QueryResult containing the result of the request
 	 */
 	private QueryResult executeQuery(Query query) {
 		ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -124,19 +121,16 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 		try {
 			result = twitter.search(query);
 		} catch (TwitterException e) {
-			logger.severe("Exception durant l'obtention des tweets sur TweetCrawlerAgent : " + e);
+			logger.severe("Exception while requesting tweets on TweetCrawlerAgent : " + e);
 		}
 		return result;
 	}
 
 	/**
-	 * Permets de stocker les résultats de la recherche par terme dans un fichier
-	 * correspondant.
+	 * Allows to store the results of the query in a file
 	 * 
-	 * @param tweets - les tweets résultant de la requ�te sous la forme d'un
-	 *               QueryResult
-	 * @param term   - le terme ayant été recherché sous la forme d'un String,
-	 *               utilisé pour le nom de fichier
+	 * @param tweets 	QueryResult containing the result of the request
+	 * @param term   	String containing the search term, used to name the file
 	 */
 	private void storeTweets(QueryResult tweets, String term) {
 		File fout = new File("./data/tweets_" + term + ".txt");
@@ -146,7 +140,7 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 						+ "', content:'" + tweet.getText().replaceAll("[\\t\\n\\r]+", " ") + "'}");
 			}
 		} catch (IOException e) {
-			logger.severe("Exception durant la sauvegarde des tweets sur TweetCrawlerAgent : " + e);
+			logger.severe("Exception while storing the tweets from TweetCrawlerAgent : " + e);
 		}
 	}
 

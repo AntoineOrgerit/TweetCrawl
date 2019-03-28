@@ -13,7 +13,7 @@ import jade.wrapper.StaleProxyException;
 import jade.wrapper.AgentController;
 
 /**
- * Représente l'agent de lancement du système.
+ * Agent starting the system
  */
 public class AgentLauncher extends Agent {
 
@@ -26,16 +26,16 @@ public class AgentLauncher extends Agent {
 
 	@Override
 	protected void setup() {
-		logger.config("Lancement de l'agent " + this.getLocalName() + "...");
+		logger.config("Starting the agent " + this.getLocalName() + "...");
 		this.getContentManager().registerLanguage(codec);
 		this.getContentManager().registerOntology(ontology);
 		this.generateAgents();
 		this.addBehaviour(new AgentLauncherBehaviour(this, this.logger, this.codec, this.ontology));
-		logger.config("Agent " + this.getLocalName() + " lancé.");
+		logger.config("Agent " + this.getLocalName() + " successfully started.");
 	}
 
 	/**
-	 * Permets de générer et lancer l'ensemble des agents du système.
+	 * Allows to generate and start all of the agents in the system
 	 */
 	private void generateAgents() {
 		PlatformController container = this.getContainerController();
@@ -44,17 +44,17 @@ public class AgentLauncher extends Agent {
 					"com.tweetcrawl.agents.TweetCrawler", null);
 			tweetCrawler.start();
 		} catch (Exception e) {
-			logger.severe("Exception durant le lancement de l'agent " + this.getLocalName() + " : " + e);
+			logger.severe("Exception during the starting of the agent " + this.getLocalName() + " : " + e);
 		}
 	}
 
 	@Override
 	public void doDelete() {
-		logger.warning("Arrêt de l'agent " + this.getLocalName());
+		logger.warning("Stopping the agent " + this.getLocalName());
 		try {
 			this.getContainerController().kill();
 		} catch (StaleProxyException e) {
-			logger.severe("Exception durant la demande d'arrêt des autres agents : " + e);
+			logger.severe("Exception while requesting the shutdown of other agents : " + e);
 		}
 	}
 
