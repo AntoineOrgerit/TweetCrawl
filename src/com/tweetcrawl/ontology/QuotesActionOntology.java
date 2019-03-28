@@ -1,0 +1,40 @@
+package com.tweetcrawl.ontology;
+
+import jade.content.onto.BasicOntology;
+import jade.content.onto.Ontology;
+import jade.content.onto.OntologyException;
+import jade.content.schema.ObjectSchema;
+import jade.content.schema.PredicateSchema;
+import jade.content.schema.PrimitiveSchema;
+import jade.util.Logger;
+
+public class QuotesActionOntology extends Ontology {
+	
+	private static final long serialVersionUID = 1L;
+	private Logger logger = Logger.getMyLogger(this.getClass().getName());
+
+	public static final String ONTOLOGY_NAME = "QuotesAction-ontology";
+
+	public static final String QUOTESACTION = "QuotesAction";
+	public static final String QUOTESACTION_TERM = "term";
+	public static final String QUOTESACTION_ACTION = "action";
+	
+	private static Ontology instance = new QuotesActionOntology();
+
+	public static Ontology getInstance() {
+		return instance;
+	}
+	
+	private QuotesActionOntology() {
+		super(ONTOLOGY_NAME, BasicOntology.getInstance());
+		try {
+			this.add(new PredicateSchema(QUOTESACTION), QuotesAction.class);
+			PredicateSchema ps = (PredicateSchema) this.getSchema(QUOTESACTION);
+			ps.add(QUOTESACTION_TERM, (PrimitiveSchema) this.getSchema(BasicOntology.STRING), ObjectSchema.MANDATORY);
+			ps.add(QUOTESACTION_ACTION, (PrimitiveSchema) this.getSchema(BasicOntology.STRING), ObjectSchema.MANDATORY);
+		} catch (OntologyException oe) {
+			logger.severe("Exception during generation of Quote-transmission-ontology ontology : " + oe);
+		}
+	}
+
+}
