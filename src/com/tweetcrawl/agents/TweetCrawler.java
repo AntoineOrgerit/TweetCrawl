@@ -1,6 +1,7 @@
 package com.tweetcrawl.agents;
 
 import com.tweetcrawl.agents.behaviours.TweetCrawlerBehaviour;
+import com.tweetcrawl.agents.utils.DFServiceManager;
 import com.tweetcrawl.ontology.CrawlRequestOntology;
 
 import jade.content.lang.Codec;
@@ -28,6 +29,7 @@ public class TweetCrawler extends Agent {
 		this.getContentManager().registerLanguage(codec);
 		this.getContentManager().registerOntology(crawlRequestOntology);
 		this.addBehaviour(new TweetCrawlerBehaviour(this, this.logger));
+		DFServiceManager.register(this, "Tweetcrawler-service");
 		logger.config("Agent " + this.getLocalName() + " lancé.");
 	}
 

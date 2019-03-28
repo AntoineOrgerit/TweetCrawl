@@ -73,14 +73,14 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 				Crawl crawl = (Crawl) action.getAction();
 				term = crawl.getTerm();
 			} catch (CodecException | OntologyException e) {
-				logger.severe("Exception durant la r�ception du terme sur TweetCrawlerAgent : " + e);
+				logger.severe("Exception durant la réception du terme sur TweetCrawlerAgent : " + e);
 			}
 		}
 		return term;
 	}
 
 	/**
-	 * Permets de générer la requ�te vers l'API de Twitter.
+	 * Permets de générer la requête vers l'API de Twitter.
 	 * 
 	 * @param term - le terme à rechercher par le biais de la requête sous la forme
 	 *             d'un String
@@ -142,7 +142,7 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 		File fout = new File("./data/tweets_" + term + ".txt");
 		try (PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fout))))) {
 			for (Status tweet : tweets.getTweets()) {
-				pw.println("{datetime:'" + tweet.getCreatedAt() + "', from:'" + tweet.getUser().getScreenName()
+				pw.println("{datetime:'" + tweet.getCreatedAt() + "', from:'@" + tweet.getUser().getScreenName()
 						+ "', content:'" + tweet.getText().replaceAll("[\\t\\n\\r]+", " ") + "'}");
 			}
 		} catch (IOException e) {

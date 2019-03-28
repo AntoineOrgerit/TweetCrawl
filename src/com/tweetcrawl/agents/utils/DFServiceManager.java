@@ -12,7 +12,7 @@ import jade.util.Logger;
  */
 public class DFServiceManager {
 	
-	private static Logger logger = (Logger) Logger.getLogger(DFServiceManager.class.getName());
+	private static Logger logger = Logger.getMyLogger(DFServiceManager.class.getName());
 	
 	private DFServiceManager() {}
 
