@@ -3,7 +3,7 @@ package com.tweetcrawl.ontology;
 import jade.content.AgentAction;
 
 /**
- * Représente une action utilisée pour demander une action crawl au
+ * ReprÃ©sente une action utilisÃ©e pour demander une action crawl au
  * TweetCrawler.
  */
 public class Crawl implements AgentAction {
@@ -12,18 +12,18 @@ public class Crawl implements AgentAction {
 	private String term;
 
 	/**
-	 * Permets d'obtenir le terme de la recherche à effectuer.
+	 * Permets d'obtenir le terme de la recherche Ã  effectuer.
 	 * 
-	 * @return Le terme de la recherche à effectuer sous la forme d'un String.
+	 * @return Le terme de la recherche Ã  effectuer sous la forme d'un String.
 	 */
 	public String getTerm() {
 		return term;
 	}
 
 	/**
-	 * Permets de définir le terme de la recherche à effectuer.
+	 * Permets de dÃ©finir le terme de la recherche Ã  effectuer.
 	 * 
-	 * @param term - le terme de la recherce à effectuer sous la forme d'un String
+	 * @param term - le terme de la recherce Ã  effectuer sous la forme d'un String
 	 */
 	public void setTerm(String term) {
 		this.term = term;

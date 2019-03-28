@@ -9,7 +9,7 @@ import jade.content.schema.PrimitiveSchema;
 import jade.util.Logger;
 
 /**
- * Représente l'ontologie utilisée lors de la demande de crawl au TweetCrawler.
+ * ReprÃ©sente l'ontologie utilisÃ©e lors de la demande de crawl au TweetCrawler.
  */
 public class CrawlRequestOntology extends Ontology {
 
@@ -33,17 +33,17 @@ public class CrawlRequestOntology extends Ontology {
 	}
 
 	/**
-	 * Constructeur privé de l'ontologie.
+	 * Constructeur privÃ© de l'ontologie.
 	 */
 	private CrawlRequestOntology() {
 		super(ONTOLOGY_NAME, BasicOntology.getInstance());
 		try {
-			// liaison du prédicat utilisé
+			// liaison du prÃ©dicat utilisÃ©
 			this.add(new AgentActionSchema(CRAWL), Crawl.class);
 			AgentActionSchema ps = (AgentActionSchema) this.getSchema(CRAWL);
 			ps.add(CRAWL_TERM, (PrimitiveSchema) this.getSchema(BasicOntology.STRING), ObjectSchema.MANDATORY);
 		} catch (OntologyException oe) {
-			logger.severe("Exception durant la génération de l'ontologie Crawl-request-ontology : " + oe);
+			logger.severe("Exception durant la gÃ©nÃ©ration de l'ontologie Crawl-request-ontology : " + oe);
 		}
 	}
 

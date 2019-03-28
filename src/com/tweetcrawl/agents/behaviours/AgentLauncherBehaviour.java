@@ -2,6 +2,7 @@ package com.tweetcrawl.agents.behaviours;
 
 import java.util.Scanner;
 
+import com.tweetcrawl.agents.utils.DFServiceManager;
 import com.tweetcrawl.ontology.Crawl;
 
 import jade.content.AgentAction;
@@ -65,6 +66,7 @@ public class AgentLauncherBehaviour extends SimpleBehaviour {
 	private void sendRequestToCrawler(String term) {
 		ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
 		msg.addReceiver(new AID("TweetCrawlerAgent", AID.ISLOCALNAME));
+		msg.addReceiver(DFServiceManager.getAgentsForService(myAgent, "Tweetcrawler-service")[0].getName());
 		msg.setLanguage(codec.getName());
 		msg.setOntology(ontology.getName());
 		Crawl crawl = new Crawl();
