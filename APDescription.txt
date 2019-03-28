@@ -1,1 +1,1 @@
-( ap-description  :name "AgentLauncher" :ap-services (set ( ap-service  :name fipa.mts.mtp.http.std :type fipa.mts.mtp.http.std :addresses (sequence http://DESKTOP-ANTOINE-ORGERIT:7778/acc))))
+( ap-description  :name "AgentLauncher" :ap-services (set ( ap-service  :name fipa.mts.mtp.http.std :type fipa.mts.mtp.http.std :addresses (sequence http://francois-Lenovo-Y50-70:7778/acc))))

@@ -1,5 +1,6 @@
 /bin/
-uml/*.bak_*
-
-sources.txt
 /data/
+/uml/*.bak_*
+/sources.txt
+/APDescription.txt
+/MTP-Main-Container.txt
