@@ -28,7 +28,7 @@ import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
 /**
- * Représente le comportement de l'agent TweetCrawler.
+ * ReprÃ©sente le comportement de l'agent TweetCrawler.
  */
 public class TweetCrawlerBehaviour extends CyclicBehaviour {
 
@@ -38,8 +38,8 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 	/**
 	 * Constructeur du comportement.
 	 * 
-	 * @param agent  - l'agent TweetCrawler auquel lié le comportement
-	 * @param logger - le logger à utiliser pour les messages d'erreurs
+	 * @param agent  - l'agent TweetCrawler auquel liÃ© le comportement
+	 * @param logger - le logger Ã  utiliser pour les messages d'erreurs
 	 */
 	public TweetCrawlerBehaviour(Agent agent, Logger logger) {
 		super(agent);
@@ -59,9 +59,9 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 	}
 
 	/**
-	 * Permets d'extraire le terme à rechercher à partir des messages reçus.
+	 * Permets d'extraire le terme Ã  rechercher Ã  partir des messages reï¿½us.
 	 * 
-	 * @return Le terme à rechercher sous la forme d'un String.
+	 * @return Le terme Ã  rechercher sous la forme d'un String.
 	 */
 	private String getTermToCrawl() {
 		ACLMessage msg = myAgent.receive();
@@ -73,18 +73,18 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 				Crawl crawl = (Crawl) action.getAction();
 				term = crawl.getTerm();
 			} catch (CodecException | OntologyException e) {
-				logger.severe("Exception durant la réception du terme sur TweetCrawlerAgent : " + e);
+				logger.severe("Exception durant la rï¿½ception du terme sur TweetCrawlerAgent : " + e);
 			}
 		}
 		return term;
 	}
 
 	/**
-	 * Permets de générer la requête vers l'API de Twitter.
+	 * Permets de gÃ©nÃ©rer la requï¿½te vers l'API de Twitter.
 	 * 
-	 * @param term - le terme à rechercher par le biais de la requête sous la forme
+	 * @param term - le terme Ã  rechercher par le biais de la requÃªte sous la forme
 	 *             d'un String
-	 * @return La requête à exécuter sous la forme d'une Query.
+	 * @return La requÃªte Ã  exÃªcuter sous la forme d'une Query.
 	 */
 	private Query generateQuery(String term) {
 		Query query = new Query(term);
@@ -96,9 +96,9 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 	/**
 	 * Permets d'obtenir la date d'il y a X jours.
 	 * 
-	 * @param days - le nombre X de jours précédant la date actuelle sous la forme
+	 * @param days - le nombre X de jours prÃ©cÃ©dant la date actuelle sous la forme
 	 *             d'un entier
-	 * @return La date d'il y a X jours sous la forme d'un String formatté
+	 * @return La date d'il y a X jours sous la forme d'un String formattÃ©
 	 *         YYYY-MM-dd.
 	 */
 	private String getDateFromXDays(int days) {
@@ -108,10 +108,10 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 	}
 
 	/**
-	 * Permets d'exécuter la requête vers l'API de Twitter.
+	 * Permets d'exÃ©cuter la requÃªte vers l'API de Twitter.
 	 * 
-	 * @param query - la requête à exécuter sour la forme d'une Query
-	 * @return Le résultat de la requête sous la forme d'un QueryResult.
+	 * @param query - la requÃªte Ã  exÃªcuter sour la forme d'une Query
+	 * @return Le rÃ©sultat de la requï¿½te sous la forme d'un QueryResult.
 	 */
 	private QueryResult executeQuery(Query query) {
 		ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -130,13 +130,13 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 	}
 
 	/**
-	 * Permets de stocker les résultats de la recherche par terme dans un fichier
+	 * Permets de stocker les rÃ©sultats de la recherche par terme dans un fichier
 	 * correspondant.
 	 * 
-	 * @param tweets - les tweets résultant de la requête sous la forme d'un
+	 * @param tweets - les tweets rÃ©sultant de la requï¿½te sous la forme d'un
 	 *               QueryResult
-	 * @param term   - le terme ayant été recherché sous la forme d'un String,
-	 *               utilisé pour le nom de fichier
+	 * @param term   - le terme ayant Ã©tÃ© recherchÃ© sous la forme d'un String,
+	 *               utilisÃ© pour le nom de fichier
 	 */
 	private void storeTweets(QueryResult tweets, String term) {
 		File fout = new File("./data/tweets_" + term + ".txt");

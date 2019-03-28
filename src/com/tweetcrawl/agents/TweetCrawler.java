@@ -10,7 +10,7 @@ import jade.core.Agent;
 import jade.util.Logger;
 
 /**
- * Représente un agent permettant de récupérer les tweets à partir de l'API de
+ * ReprÃ©sente un agent permettant de rÃ©cupÃ©rer les tweets Ã  partir de l'API de
  * Twitter.
  */
 public class TweetCrawler extends Agent {
@@ -18,7 +18,7 @@ public class TweetCrawler extends Agent {
 	private static final long serialVersionUID = 1L;
 	private Logger logger = Logger.getMyLogger(this.getClass().getName());
 
-	/** Ontologies à utiliser **/
+	/** Ontologies Ã  utiliser **/
 	private Codec codec = new SLCodec();
 	private Ontology crawlRequestOntology = CrawlRequestOntology.getInstance();
 
@@ -28,12 +28,12 @@ public class TweetCrawler extends Agent {
 		this.getContentManager().registerLanguage(codec);
 		this.getContentManager().registerOntology(crawlRequestOntology);
 		this.addBehaviour(new TweetCrawlerBehaviour(this, this.logger));
-		logger.config("Agent " + this.getLocalName() + " lancé.");
+		logger.config("Agent " + this.getLocalName() + " lancÃ©.");
 	}
 
 	@Override
 	public void doDelete() {
-		logger.warning("Arrêt de l'agent " + this.getLocalName());
+		logger.warning("ArrÃªt de l'agent " + this.getLocalName());
 	}
 
 }

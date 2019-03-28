@@ -17,7 +17,7 @@ import jade.lang.acl.ACLMessage;
 import jade.util.Logger;
 
 /**
- * Représente le comportement de l'agent lanceur.
+ * ReprÃ©sente le comportement de l'agent lanceur.
  */
 public class AgentLauncherBehaviour extends SimpleBehaviour {
 
@@ -31,10 +31,10 @@ public class AgentLauncherBehaviour extends SimpleBehaviour {
 	/**
 	 * Constructeur du comportement de l'agent lanceur.
 	 * 
-	 * @param agent    - l'agent TweetCrawler auquel lié le comportement
-	 * @param logger   - le logger à utiliser pour les messages d'erreurs
-	 * @param codec    - le codec à utiliser pour communiquer avec l'agent crawler
-	 * @param ontology - l'ontologie à utiliser pour communiquer avec l'agent
+	 * @param agent    - l'agent TweetCrawler auquel liÃ© le comportement
+	 * @param logger   - le logger Ã  utiliser pour les messages d'erreurs
+	 * @param codec    - le codec Ã  utiliser pour communiquer avec l'agent crawler
+	 * @param ontology - l'ontologie Ã  utiliser pour communiquer avec l'agent
 	 *                 crawler
 	 */
 	public AgentLauncherBehaviour(Agent agent, Logger logger, Codec codec, Ontology ontology) {
@@ -47,7 +47,7 @@ public class AgentLauncherBehaviour extends SimpleBehaviour {
 
 	@Override
 	public void action() {
-		logger.info("En attente d'un terme à rechercher... Entrer EXIT pour arrêter le programme.");
+		logger.info("En attente d'un terme Ã  rechercher... Entrer EXIT pour arrÃªter le programme.");
 		String term = reader.next();
 		if (term.equals("EXIT")) {
 			this.exitRequested = true;
@@ -58,9 +58,9 @@ public class AgentLauncherBehaviour extends SimpleBehaviour {
 	}
 
 	/**
-	 * Permets d'envoyer une requête de recherche à l'agent crawler.
+	 * Permets d'envoyer une requï¿½te de recherche Ã  l'agent crawler.
 	 * 
-	 * @param term - le terme à rechercher par l'agent crawler
+	 * @param term - le terme Ã  rechercher par l'agent crawler
 	 */
 	private void sendRequestToCrawler(String term) {
 		ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);

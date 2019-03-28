@@ -13,7 +13,7 @@ import jade.wrapper.StaleProxyException;
 import jade.wrapper.AgentController;
 
 /**
- * Représente l'agent de lancement du système.
+ * ReprÃ©sente l'agent de lancement du systÃ¨me.
  */
 public class AgentLauncher extends Agent {
 
@@ -31,11 +31,11 @@ public class AgentLauncher extends Agent {
 		this.getContentManager().registerOntology(ontology);
 		this.generateAgents();
 		this.addBehaviour(new AgentLauncherBehaviour(this, this.logger, this.codec, this.ontology));
-		logger.config("Agent " + this.getLocalName() + " lancé.");
+		logger.config("Agent " + this.getLocalName() + " lancÃ©.");
 	}
 
 	/**
-	 * Permets de générer et lancer l'ensemble des agents du système.
+	 * Permets de gÃ©nÃ©rer et lancer l'ensemble des agents du systÃ¨me.
 	 */
 	private void generateAgents() {
 		PlatformController container = this.getContainerController();
@@ -50,11 +50,11 @@ public class AgentLauncher extends Agent {
 
 	@Override
 	public void doDelete() {
-		logger.warning("Arrêt de l'agent " + this.getLocalName());
+		logger.warning("ArrÃªt de l'agent " + this.getLocalName());
 		try {
 			this.getContainerController().kill();
 		} catch (StaleProxyException e) {
-			logger.severe("Exception durant la demande d'arrêt des autres agents : " + e);
+			logger.severe("Exception durant la demande d'arrÃªt des autres agents : " + e);
 		}
 	}
 
