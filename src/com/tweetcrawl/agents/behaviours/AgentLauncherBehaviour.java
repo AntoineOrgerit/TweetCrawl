@@ -18,7 +18,7 @@ import jade.lang.acl.ACLMessage;
 import jade.util.Logger;
 
 /**
- * Représente le comportement de l'agent lanceur.
+ * Behaviour of the Launcher agent
  */
 public class AgentLauncherBehaviour extends SimpleBehaviour {
 
@@ -30,13 +30,12 @@ public class AgentLauncherBehaviour extends SimpleBehaviour {
 	private boolean exitRequested = false;
 
 	/**
-	 * Constructeur du comportement de l'agent lanceur.
+	 * Constructor of the behaviour
 	 * 
-	 * @param agent    - l'agent TweetCrawler auquel lié le comportement
-	 * @param logger   - le logger à utiliser pour les messages d'erreurs
-	 * @param codec    - le codec à utiliser pour communiquer avec l'agent crawler
-	 * @param ontology - l'ontologie à utiliser pour communiquer avec l'agent
-	 *                 crawler
+	 * @param agent   	corresponding Launcher agent 
+	 * @param logger   	logger used to display errors
+	 * @param codec    	codec used to communicate with the TweetCrawler agent
+	 * @param ontology 	ontology used to communicate with the TweetCrawler agent
 	 */
 	public AgentLauncherBehaviour(Agent agent, Logger logger, Codec codec, Ontology ontology) {
 		super(agent);
@@ -48,7 +47,7 @@ public class AgentLauncherBehaviour extends SimpleBehaviour {
 
 	@Override
 	public void action() {
-		logger.info("En attente d'un terme à rechercher... Entrer EXIT pour arrêter le programme.");
+		logger.info("Waiting for a term to search... send EXIT to quit.");
 		String term = reader.next();
 		if (term.equals("EXIT")) {
 			this.exitRequested = true;
@@ -59,9 +58,9 @@ public class AgentLauncherBehaviour extends SimpleBehaviour {
 	}
 
 	/**
-	 * Permets d'envoyer une requ�te de recherche à l'agent crawler.
+	 * Allows to send a search request to the TweetCrawler agent
 	 * 
-	 * @param term - le terme à rechercher par l'agent crawler
+	 * @param term		term to be searched by the TweetCrawler agent
 	 */
 	private void sendRequestToCrawler(String term) {
 		ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
@@ -76,7 +75,7 @@ public class AgentLauncherBehaviour extends SimpleBehaviour {
 			myAgent.getContentManager().fillContent(msg, action);
 			myAgent.send(msg);
 		} catch (CodecException | OntologyException e) {
-			logger.severe("Exception durant l'envoi du terme vers le TweetCrawlerAgent : " + e);
+			logger.severe("Exception while sending the term to the TweetCrawler agent : " + e);
 		}
 	}
 
