@@ -61,7 +61,11 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 	/**
 	 * Allows to extract the term to search from received messages
 	 *
+<<<<<<< HEAD
 	 * @return String containing the term to search
+=======
+	 * @return 		String containing the term to search
+>>>>>>> 377c3e88d36e2d12aa2c89ab0eefc0d08f79bc8c
 	 */
 	private String getTermToCrawl() {
 		ACLMessage msg = myAgent.receive();
@@ -82,8 +86,13 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 	/**
 	 * Allows to generate the request to send to Twitter's API
 	 * 
+<<<<<<< HEAD
 	 * @param term String containing the term to be searched through the request
 	 * @return Query containing the request to be executed
+=======
+	 * @param term 		String containing the term to be searched through the request
+	 * @return 		Query containing the request to be executed
+>>>>>>> 377c3e88d36e2d12aa2c89ab0eefc0d08f79bc8c
 	 */
 	private Query generateQuery(String term) {
 		Query query = new Query(term);
@@ -95,8 +104,13 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 	/**
 	 * Allows to get the date X days ago
 	 * 
+<<<<<<< HEAD
 	 * @param days Number X of days
 	 * @return String containing the date X days ago, formated as YYYY-MM-dd
+=======
+	 * @param days 		Number X of days
+	 * @return 		String containing the date X days ago, formated as YYYY-MM-dd
+>>>>>>> 377c3e88d36e2d12aa2c89ab0eefc0d08f79bc8c
 	 */
 	private String getDateFromXDays(int days) {
 		LocalDate date = LocalDate.now().minusDays(days);
@@ -107,8 +121,13 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 	/**
 	 * Allows to execute a request using Twitter's API
 	 *
+<<<<<<< HEAD
 	 * @param query Query request to be executed
 	 * @return QueryResult containing the result of the request
+=======
+	 * @param query 	Query request to be executed
+	 * @return 		QueryResult containing the result of the request
+>>>>>>> 377c3e88d36e2d12aa2c89ab0eefc0d08f79bc8c
 	 */
 	private QueryResult executeQuery(Query query) {
 		ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -129,8 +148,13 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 	/**
 	 * Allows to store the results of the query in a file
 	 * 
+<<<<<<< HEAD
 	 * @param tweets QueryResult containing the result of the request
 	 * @param term   String containing the search term, used to name the file
+=======
+	 * @param tweets 	QueryResult containing the result of the request
+	 * @param term   	String containing the search term, used to name the file
+>>>>>>> 377c3e88d36e2d12aa2c89ab0eefc0d08f79bc8c
 	 */
 	private void storeTweets(QueryResult tweets, String term) {
 		File fout = new File("./data/tweets_" + term + ".txt");

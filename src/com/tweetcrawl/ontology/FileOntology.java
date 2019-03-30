@@ -18,7 +18,6 @@ public class FileOntology extends Ontology {
 	public static final String NAME = "name";
 
 	private FileOntology() {
-
 		super(ONTOLOGY_NAME, BasicOntology.getInstance());
 		try {
 			this.add(new PredicateSchema(FILE), FileTwitter.class);
