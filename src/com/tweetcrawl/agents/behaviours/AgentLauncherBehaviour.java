@@ -11,7 +11,6 @@ import jade.content.lang.Codec.CodecException;
 import jade.content.onto.Ontology;
 import jade.content.onto.OntologyException;
 import jade.content.onto.basic.Action;
-import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.SimpleBehaviour;
 import jade.lang.acl.ACLMessage;
@@ -26,16 +25,16 @@ public class AgentLauncherBehaviour extends SimpleBehaviour {
 	private Logger logger;
 	private Codec codec;
 	private Ontology ontology;
-	private Scanner reader;
+	private transient Scanner reader;
 	private boolean exitRequested = false;
 
 	/**
 	 * Constructor of the behaviour
 	 * 
-	 * @param agent   	corresponding Launcher agent 
-	 * @param logger   	logger used to display errors
-	 * @param codec    	codec used to communicate with the TweetCrawler agent
-	 * @param ontology 	ontology used to communicate with the TweetCrawler agent
+	 * @param agent    corresponding Launcher agent
+	 * @param logger   logger used to display errors
+	 * @param codec    codec used to communicate with the TweetCrawler agent
+	 * @param ontology ontology used to communicate with the TweetCrawler agent
 	 */
 	public AgentLauncherBehaviour(Agent agent, Logger logger, Codec codec, Ontology ontology) {
 		super(agent);
@@ -60,11 +59,10 @@ public class AgentLauncherBehaviour extends SimpleBehaviour {
 	/**
 	 * Allows to send a search request to the TweetCrawler agent
 	 * 
-	 * @param term		term to be searched by the TweetCrawler agent
+	 * @param term term to be searched by the TweetCrawler agent
 	 */
 	private void sendRequestToCrawler(String term) {
 		ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
-		msg.addReceiver(new AID("TweetCrawlerAgent", AID.ISLOCALNAME));
 		msg.addReceiver(DFServiceManager.getAgentsForService(myAgent, "Tweetcrawler-service")[0].getName());
 		msg.setLanguage(codec.getName());
 		msg.setOntology(ontology.getName());

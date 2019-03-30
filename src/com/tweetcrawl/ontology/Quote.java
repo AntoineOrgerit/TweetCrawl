@@ -1,18 +1,18 @@
 package com.tweetcrawl.ontology;
 
-import jade.content.Concept;
+import jade.content.Predicate;
 
 /**
- * Concept used to represent a retweet (quote).
+ * Predicate used to represent a retweet (quote).
  */
-public class Quote implements Concept {
+public class Quote implements Predicate {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private String term;
 	private String repeater;
 	private String original;
-	
+
 	/**
 	 * Allows to get the term linked to the quote.
 	 * 
@@ -21,7 +21,7 @@ public class Quote implements Concept {
 	public String getTerm() {
 		return term;
 	}
-	
+
 	/**
 	 * Allows to set the term linked to the quote.
 	 * 
@@ -30,7 +30,7 @@ public class Quote implements Concept {
 	public void setTerm(String term) {
 		this.term = term;
 	}
-	
+
 	/**
 	 * Allows to get the repeater who quotes the content.
 	 * 
@@ -39,7 +39,7 @@ public class Quote implements Concept {
 	public String getRepeater() {
 		return repeater;
 	}
-	
+
 	/**
 	 * Allows to set the repeater who quotes the content.
 	 * 
@@ -48,7 +48,7 @@ public class Quote implements Concept {
 	public void setRepeater(String repeater) {
 		this.repeater = repeater;
 	}
-	
+
 	/**
 	 * Allows to get the original writer of the content.
 	 * 
@@ -57,7 +57,7 @@ public class Quote implements Concept {
 	public String getOriginal() {
 		return original;
 	}
-	
+
 	/**
 	 * Allows to set the original writer of the content.
 	 * 
@@ -66,5 +66,5 @@ public class Quote implements Concept {
 	public void setOriginal(String original) {
 		this.original = original;
 	}
-	
+
 }

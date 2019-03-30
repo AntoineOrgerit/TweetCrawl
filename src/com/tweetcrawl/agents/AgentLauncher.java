@@ -1,5 +1,7 @@
 package com.tweetcrawl.agents;
 
+import java.io.File;
+
 import com.tweetcrawl.agents.behaviours.AgentLauncherBehaviour;
 import com.tweetcrawl.ontology.CrawlRequestOntology;
 
@@ -29,6 +31,7 @@ public class AgentLauncher extends Agent {
 		logger.config("Starting the agent " + this.getLocalName() + "...");
 		this.getContentManager().registerLanguage(codec);
 		this.getContentManager().registerOntology(ontology);
+		this.checkDirectories();
 		this.generateAgents();
 		this.addBehaviour(new AgentLauncherBehaviour(this, this.logger, this.codec, this.ontology));
 		logger.config("Agent " + this.getLocalName() + " successfully started.");
@@ -45,6 +48,20 @@ public class AgentLauncher extends Agent {
 			tweetCrawler.start();
 		} catch (Exception e) {
 			logger.severe("Exception during the starting of the agent " + this.getLocalName() + " : " + e);
+		}
+	}
+
+	/**
+	 * Checks the directory to see if they have to be created.
+	 */
+	private void checkDirectories() {
+		File directory = new File("./data/");
+		if (!directory.exists()) {
+			directory.mkdir();
+		}
+		directory = new File("./visualisation/");
+		if (!directory.exists()) {
+			directory.mkdir();
 		}
 	}
 

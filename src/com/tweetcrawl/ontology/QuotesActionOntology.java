@@ -8,8 +8,12 @@ import jade.content.schema.PredicateSchema;
 import jade.content.schema.PrimitiveSchema;
 import jade.util.Logger;
 
+/**
+ * Ontology used when informing about a treatement to the QuoteGraphGenerator
+ * agent
+ */
 public class QuotesActionOntology extends Ontology {
-	
+
 	private static final long serialVersionUID = 1L;
 	private Logger logger = Logger.getMyLogger(this.getClass().getName());
 
@@ -18,13 +22,21 @@ public class QuotesActionOntology extends Ontology {
 	public static final String QUOTESACTION = "QuotesAction";
 	public static final String QUOTESACTION_TERM = "term";
 	public static final String QUOTESACTION_ACTION = "action";
-	
+
 	private static Ontology instance = new QuotesActionOntology();
 
+	/**
+	 * Allows to get an instance of the ontology
+	 * 
+	 * @return An instance of the ontology as an <i>Ontology</i> object
+	 */
 	public static Ontology getInstance() {
 		return instance;
 	}
-	
+
+	/**
+	 * Private constructor for the ontology.
+	 */
 	private QuotesActionOntology() {
 		super(ONTOLOGY_NAME, BasicOntology.getInstance());
 		try {
