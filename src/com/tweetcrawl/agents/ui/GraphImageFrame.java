@@ -30,6 +30,7 @@ public class GraphImageFrame extends JFrame {
 			this.setIconImage(imageIcon.getImage());
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			this.pack();
+			this.setLocationRelativeTo(null);
 			this.setVisible(true);
 		} catch (IOException e) {
 			logger.severe("Exception during .png display on QuoteGraphGenerator: " + e);
