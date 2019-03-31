@@ -57,6 +57,9 @@ public class AgentLauncher extends GuiAgent {
 			AgentController tweetCrawler = container.createNewAgent("TweetCrawlerAgent",
 					"com.tweetcrawl.agents.TweetCrawler", null);
 			tweetCrawler.start();
+			AgentController quoteGraphGenerator = container.createNewAgent("QuoteGraphGeneratorAgent",
+					"com.tweetcrawl.agents.QuoteGraphGenerator", null);
+			quoteGraphGenerator.start();
 		} catch (Exception e) {
 			logger.severe("Exception during the starting of the agent " + this.getLocalName() + " : " + e);
 		}
@@ -100,7 +103,8 @@ public class AgentLauncher extends GuiAgent {
 			this.shutdown();
 			break;
 		case AgentLauncherGUI.INPUT:
-			this.addBehaviour(new AgentLauncherBehaviour(this, this.logger, this.codec, this.crawlRequestOntology, (String) e.getParameter(0)));
+			this.addBehaviour(new AgentLauncherBehaviour(this, this.logger, this.codec, this.crawlRequestOntology,
+					(String) e.getParameter(0)));
 			break;
 		default:
 			break;
