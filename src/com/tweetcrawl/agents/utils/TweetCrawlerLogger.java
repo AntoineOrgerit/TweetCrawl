@@ -27,7 +27,7 @@ public class TweetCrawlerLogger implements Serializable {
 		JOptionPane optionPane = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION,
 				null, new Object[] {}, null);
 		dialog.setTitle(title);
-		dialog.setModal(true);
+		dialog.setModal(false);
 		dialog.setContentPane(optionPane);
 		if (canBeClosed) {
 			dialog.setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
@@ -45,7 +45,7 @@ public class TweetCrawlerLogger implements Serializable {
 		JOptionPane optionPane = new JOptionPane(message, JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION, null,
 				new Object[] {}, null);
 		dialog.setTitle("Error");
-		dialog.setModal(true);
+		dialog.setModal(false);
 		dialog.setContentPane(optionPane);
 		dialog.setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
 		dialog.pack();
@@ -58,7 +58,7 @@ public class TweetCrawlerLogger implements Serializable {
 		JOptionPane optionPane = new JOptionPane(message, JOptionPane.WARNING_MESSAGE, JOptionPane.DEFAULT_OPTION, null,
 				new Object[] {}, null);
 		dialog.setTitle("Warning");
-		dialog.setModal(true);
+		dialog.setModal(false);
 		dialog.setContentPane(optionPane);
 		dialog.setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
 		dialog.pack();
