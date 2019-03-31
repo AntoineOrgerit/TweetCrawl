@@ -2,10 +2,15 @@ package com.tweetcrawl.agents;
 
 import java.io.File;
 
-import com.tweetcrawl.agents.behaviours.AgentLauncherBehaviour;
+import javax.swing.JDialog;
+
 import com.tweetcrawl.agents.ui.AgentLauncherGUI;
+import com.tweetcrawl.agents.utils.DFServiceManager;
+import com.tweetcrawl.agents.utils.TweetCrawlerLogger;
+import com.tweetcrawl.ontology.Crawl;
 import com.tweetcrawl.ontology.CrawlRequestOntology;
 
+import jade.content.AgentAction;
 import jade.content.lang.Codec;
 import jade.content.lang.Codec.CodecException;
 import jade.content.lang.sl.SLCodec;
@@ -17,7 +22,6 @@ import jade.gui.GuiEvent;
 import jade.domain.JADEAgentManagement.JADEManagementOntology;
 import jade.domain.JADEAgentManagement.ShutdownPlatform;
 import jade.lang.acl.ACLMessage;
-import jade.util.Logger;
 import jade.wrapper.PlatformController;
 import jade.wrapper.AgentController;
 
@@ -27,7 +31,7 @@ import jade.wrapper.AgentController;
 public class AgentLauncher extends GuiAgent {
 
 	private static final long serialVersionUID = 1L;
-	private Logger logger = Logger.getMyLogger(this.getClass().getName());
+	private TweetCrawlerLogger logger = new TweetCrawlerLogger(this.getClass().getName());
 	private AgentLauncherGUI gui;
 	// private int numberOfTreatmentAgents = 2;
 
@@ -37,15 +41,16 @@ public class AgentLauncher extends GuiAgent {
 
 	@Override
 	protected void setup() {
-		logger.config("Starting the agent " + this.getLocalName() + "...");
+		JDialog dialog = logger.info("TweetCrawler launcher agent " + this.getLocalName() + " is launching the AMS, please wait a moment.", this.getLocalName(), false);
 		this.getContentManager().registerLanguage(codec);
 		this.getContentManager().registerOntology(crawlRequestOntology);
 		this.getContentManager().registerOntology(jadeManagementOntology);
 		this.checkDirectories();
 		this.generateAgents();
 		this.gui = new AgentLauncherGUI(this);
+		logger.info("TweetCrawler launcher agent " + this.getLocalName() + " has successfully started the AMS.");
+		dialog.setVisible(false);
 		this.gui.setVisible(true);
-		logger.config("Agent " + this.getLocalName() + " successfully started.");
 	}
 
 	/**
@@ -103,11 +108,31 @@ public class AgentLauncher extends GuiAgent {
 			this.shutdown();
 			break;
 		case AgentLauncherGUI.INPUT:
-			this.addBehaviour(new AgentLauncherBehaviour(this, this.logger, this.codec, this.crawlRequestOntology,
-					(String) e.getParameter(0)));
+			this.sendRequestToCrawler((String) e.getParameter(0));
 			break;
 		default:
 			break;
+		}
+	}
+	
+	/**
+	 * Allows to send a search request to the TweetCrawler agent
+	 * 
+	 * @param term term to be searched by the TweetCrawler agent
+	 */
+	private void sendRequestToCrawler(String term) {
+		ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
+		msg.addReceiver(DFServiceManager.getAgentsForService(this, "Tweetcrawler-service")[0].getName());
+		msg.setLanguage(this.codec.getName());
+		msg.setOntology(this.crawlRequestOntology.getName());
+		Crawl crawl = new Crawl();
+		crawl.setTerm(term);
+		Action action = new Action(this.getAID(), (AgentAction) crawl);
+		try {
+			this.getContentManager().fillContent(msg, action);
+			this.send(msg);
+		} catch (CodecException | OntologyException e) {
+			logger.severe("Exception while sending the term to the TweetCrawler agent : " + e);
 		}
 	}
 
