@@ -5,14 +5,13 @@ import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
-import jade.util.Logger;
 
 /**
  * Manager of the services' registering and consumption
  */
 public class DFServiceManager {
 
-	private static Logger logger = Logger.getMyLogger(DFServiceManager.class.getName());
+	private static TweetCrawlerLogger logger = new TweetCrawlerLogger(DFServiceManager.class.getName());
 
 	private DFServiceManager() {
 	}

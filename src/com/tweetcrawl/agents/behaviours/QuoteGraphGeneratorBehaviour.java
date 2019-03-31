@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.tweetcrawl.agents.ui.GraphImageFrame;
+import com.tweetcrawl.agents.utils.TweetCrawlerLogger;
 import com.tweetcrawl.ontology.Quote;
 import com.tweetcrawl.ontology.QuotesAction;
 import com.tweetcrawl.structure.Edge;
@@ -18,7 +19,6 @@ import jade.content.onto.OntologyException;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
-import jade.util.Logger;
 
 /**
  * Behaviour of the graph generator agent
@@ -26,7 +26,7 @@ import jade.util.Logger;
 public class QuoteGraphGeneratorBehaviour extends CyclicBehaviour {
 
 	private static final long serialVersionUID = 1L;
-	private Logger logger;
+	private TweetCrawlerLogger logger;
 
 	private transient Map<String, QuoteGraph> graphsContruction;
 
@@ -36,7 +36,7 @@ public class QuoteGraphGeneratorBehaviour extends CyclicBehaviour {
 	 * @param agent  corresponding graph generator agent
 	 * @param logger logger used to display errors
 	 */
-	public QuoteGraphGeneratorBehaviour(Agent agent, Logger logger) {
+	public QuoteGraphGeneratorBehaviour(Agent agent, TweetCrawlerLogger logger) {
 		super(agent);
 		this.logger = logger;
 		this.graphsContruction = new HashMap<>();

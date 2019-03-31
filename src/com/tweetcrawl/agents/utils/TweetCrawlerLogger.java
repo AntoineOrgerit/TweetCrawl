@@ -1,12 +1,16 @@
 package com.tweetcrawl.agents.utils;
 
+import java.io.Serializable;
+
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import jade.util.Logger;
 
-public class TweetCrawlerLogger {
+public class TweetCrawlerLogger implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	private Logger logger;
 
 	public TweetCrawlerLogger(String name) {
@@ -34,13 +38,26 @@ public class TweetCrawlerLogger {
 		dialog.setVisible(true);
 		return dialog;
 	}
-	
+
 	public void severe(String message) {
 		this.logger.severe(message);
 		JDialog dialog = new JDialog();
-		JOptionPane optionPane = new JOptionPane(message, JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION,
-				null, new Object[] {}, null);
+		JOptionPane optionPane = new JOptionPane(message, JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION, null,
+				new Object[] {}, null);
 		dialog.setTitle("Error");
+		dialog.setModal(true);
+		dialog.setContentPane(optionPane);
+		dialog.setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
+		dialog.pack();
+		dialog.setVisible(true);
+	}
+
+	public void warning(String message) {
+		this.logger.severe(message);
+		JDialog dialog = new JDialog();
+		JOptionPane optionPane = new JOptionPane(message, JOptionPane.WARNING_MESSAGE, JOptionPane.DEFAULT_OPTION, null,
+				new Object[] {}, null);
+		dialog.setTitle("Warning");
 		dialog.setModal(true);
 		dialog.setContentPane(optionPane);
 		dialog.setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);

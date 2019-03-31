@@ -32,7 +32,6 @@ public class AgentLauncher extends GuiAgent {
 
 	private static final long serialVersionUID = 1L;
 	private TweetCrawlerLogger logger = new TweetCrawlerLogger(this.getClass().getName());
-	private AgentLauncherGUI gui;
 	// private int numberOfTreatmentAgents = 2;
 
 	private Codec codec = new SLCodec();
@@ -41,16 +40,18 @@ public class AgentLauncher extends GuiAgent {
 
 	@Override
 	protected void setup() {
-		JDialog dialog = logger.info("TweetCrawler launcher agent " + this.getLocalName() + " is launching the AMS, please wait a moment.", this.getLocalName(), false);
+		JDialog dialog = logger.info(
+				"TweetCrawler launcher agent " + this.getLocalName() + " is launching the AMS, please wait a moment.",
+				this.getLocalName(), false);
 		this.getContentManager().registerLanguage(codec);
 		this.getContentManager().registerOntology(crawlRequestOntology);
 		this.getContentManager().registerOntology(jadeManagementOntology);
 		this.checkDirectories();
 		this.generateAgents();
-		this.gui = new AgentLauncherGUI(this);
+		AgentLauncherGUI gui = new AgentLauncherGUI(this);
 		logger.info("TweetCrawler launcher agent " + this.getLocalName() + " has successfully started the AMS.");
 		dialog.setVisible(false);
-		this.gui.setVisible(true);
+		gui.setVisible(true);
 	}
 
 	/**
@@ -114,7 +115,7 @@ public class AgentLauncher extends GuiAgent {
 			break;
 		}
 	}
-	
+
 	/**
 	 * Allows to send a search request to the TweetCrawler agent
 	 * 

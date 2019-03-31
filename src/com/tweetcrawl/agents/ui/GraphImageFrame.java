@@ -5,7 +5,7 @@ import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-import jade.util.Logger;
+import com.tweetcrawl.agents.utils.TweetCrawlerLogger;
 
 /**
  * JFrame containing a GraphImageComponent
@@ -20,7 +20,7 @@ public class GraphImageFrame extends JFrame {
 	 * @param term   the term associated with the frame
 	 * @param logger logger used to display errors
 	 */
-	public GraphImageFrame(String term, Logger logger) {
+	public GraphImageFrame(String term, TweetCrawlerLogger logger) {
 		GraphImageComponent component;
 		ImageIcon imageIcon = new ImageIcon("./img/twitter-logo-vector-png-clipart-1.png");
 		try {
