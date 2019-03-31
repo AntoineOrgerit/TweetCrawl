@@ -100,7 +100,7 @@ public class AgentLauncher extends GuiAgent {
 			this.addBehaviour(new AgentLauncherBehaviour(this, this.logger, this.codec, this.crawlRequestOntology, (String) e.getParameter(0)));
 			break;
 		default:
-			System.out.println("default");
+			break;
 		}
 	}
 
