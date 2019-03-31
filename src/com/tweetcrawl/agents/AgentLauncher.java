@@ -76,6 +76,9 @@ public class AgentLauncher extends GuiAgent {
 		}
 	}
 
+	/**
+	 * Allows to shutdown the AMS system
+	 */
 	public void shutdown() {
 		logger.info("Stopping the system... It can take some time, please wait.");
 		ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);

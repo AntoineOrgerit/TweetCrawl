@@ -21,22 +21,34 @@ import com.tweetcrawl.agents.AgentLauncher;
 
 import jade.gui.GuiEvent;
 
+/**
+ * GUI of the launcher agent
+ */
 public class AgentLauncherGUI extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private AgentLauncher agent;
 
+	/** types of action performed **/
 	public static final int EXIT = 0;
 	public static final int INPUT = 1;
 
 	private JTextField textField;
 	private JButton button;
 
+	/**
+	 * Constructor of the GUI
+	 * 
+	 * @param agent launcher agent using the GUI
+	 */
 	public AgentLauncherGUI(AgentLauncher agent) {
 		this.agent = agent;
 		this.generateFrame();
 	}
 
+	/**
+	 * Allows to generate the frame
+	 */
 	private void generateFrame() {
 		Container contentPane = this.generateLayout();
 		this.generateLabelAndInput(contentPane);
@@ -49,6 +61,11 @@ public class AgentLauncherGUI extends JFrame implements ActionListener {
 		this.setCloseOperation();
 	}
 
+	/**
+	 * Allows to generate the layout of the frame
+	 * 
+	 * @return the <code>Container</code> containing the layout used
+	 */
 	private Container generateLayout() {
 		GridBagLayout layout = new GridBagLayout();
 		Container contentPane = this.getContentPane();
@@ -56,6 +73,12 @@ public class AgentLauncherGUI extends JFrame implements ActionListener {
 		return contentPane;
 	}
 
+	/**
+	 * Allows to generate the label and the input of the container
+	 * 
+	 * @param contentPane the <code>Container</code> where to include the label and
+	 *                    the input
+	 */
 	private void generateLabelAndInput(Container contentPane) {
 		JPanel panel = new JPanel();
 		JLabel label = new JLabel("Rechercher sur Twitter :");
@@ -71,6 +94,11 @@ public class AgentLauncherGUI extends JFrame implements ActionListener {
 		contentPane.add(panel, c);
 	}
 
+	/**
+	 * Allows to generate the button of the container
+	 * 
+	 * @param contentPane the <code>Container</code> where to include the button
+	 */
 	private void generateButton(Container contentPane) {
 		this.button = new JButton("Rechercher");
 		this.button.addActionListener(this);
@@ -81,6 +109,9 @@ public class AgentLauncherGUI extends JFrame implements ActionListener {
 		contentPane.add(this.button, c);
 	}
 
+	/**
+	 * Allows to set a close operation to the frame
+	 */
 	private void setCloseOperation() {
 		this.addWindowListener(new WindowAdapter() {
 			@Override
