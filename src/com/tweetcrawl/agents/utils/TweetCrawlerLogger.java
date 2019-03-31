@@ -2,6 +2,7 @@ package com.tweetcrawl.agents.utils;
 
 import java.io.Serializable;
 
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
@@ -27,6 +28,7 @@ public class TweetCrawlerLogger implements Serializable {
 		JOptionPane optionPane = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION,
 				null, new Object[] {}, null);
 		dialog.setTitle(title);
+		dialog.setIconImage((new ImageIcon("./img/twitter-logo-vector-png-clipart-1.png")).getImage());
 		dialog.setModal(false);
 		dialog.setContentPane(optionPane);
 		if (canBeClosed) {
@@ -35,6 +37,7 @@ public class TweetCrawlerLogger implements Serializable {
 			dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		}
 		dialog.pack();
+		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
 		return dialog;
 	}
@@ -45,10 +48,12 @@ public class TweetCrawlerLogger implements Serializable {
 		JOptionPane optionPane = new JOptionPane(message, JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION, null,
 				new Object[] {}, null);
 		dialog.setTitle("Error");
+		dialog.setIconImage((new ImageIcon("./img/twitter-logo-vector-png-clipart-1.png")).getImage());
 		dialog.setModal(false);
 		dialog.setContentPane(optionPane);
 		dialog.setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
 		dialog.pack();
+		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
 	}
 
@@ -58,10 +63,12 @@ public class TweetCrawlerLogger implements Serializable {
 		JOptionPane optionPane = new JOptionPane(message, JOptionPane.WARNING_MESSAGE, JOptionPane.DEFAULT_OPTION, null,
 				new Object[] {}, null);
 		dialog.setTitle("Warning");
+		dialog.setIconImage((new ImageIcon("./img/twitter-logo-vector-png-clipart-1.png")).getImage());
 		dialog.setModal(false);
 		dialog.setContentPane(optionPane);
 		dialog.setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
 		dialog.pack();
+		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
 	}
 

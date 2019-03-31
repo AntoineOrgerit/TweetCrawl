@@ -92,10 +92,10 @@ public class AgentLauncher extends GuiAgent {
 		logger.info("Stopping the system... It can take some time, please wait.");
 		ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
 		msg.addReceiver(this.getAMS());
-		msg.setLanguage(codec.getName());
-		msg.setOntology(jadeManagementOntology.getName());
+		msg.setLanguage(this.codec.getName());
+		msg.setOntology(this.jadeManagementOntology.getName());
 		try {
-			getContentManager().fillContent(msg, new Action(getAID(), new ShutdownPlatform()));
+			this.getContentManager().fillContent(msg, new Action(this.getAID(), new ShutdownPlatform()));
 			send(msg);
 		} catch (CodecException | OntologyException e) {
 			logger.severe("Exception encountered while stopping the AMS: " + e);

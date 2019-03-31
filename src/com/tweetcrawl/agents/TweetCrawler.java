@@ -34,7 +34,7 @@ public class TweetCrawler extends Agent {
 
 	@Override
 	public void doDelete() {
-		logger.warning("Shutting down the agent " + this.getLocalName());
+		logger.info("Shutting down the agent " + this.getLocalName());
 	}
 
 }

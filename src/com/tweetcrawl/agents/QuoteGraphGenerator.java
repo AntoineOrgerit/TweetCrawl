@@ -37,7 +37,7 @@ public class QuoteGraphGenerator extends Agent {
 
 	@Override
 	public void doDelete() {
-		logger.warning("Stopping the agent " + this.getLocalName());
+		logger.info("Stopping the agent " + this.getLocalName());
 	}
 
 }
