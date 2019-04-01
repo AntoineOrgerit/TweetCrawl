@@ -112,9 +112,6 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 	 */
 	private QueryResult executeQuery(Query query) {
 		ConfigurationBuilder cb = new ConfigurationBuilder();
-		cb.setDebugEnabled(true).setOAuthConsumerKey("0CeZ8uh64y17IHQywEawEDywX")
-				.setOAuthConsumerSecret("cZxzH3itDvcxHNc2IL1YkbXqd58TrBUUnjN10zrIWTj0fLUxMG").setOAuthAccessToken("")
-				.setOAuthAccessTokenSecret("");
 		TwitterFactory tf = new TwitterFactory(cb.build());
 		Twitter twitter = tf.getInstance();
 		QueryResult result = null;
