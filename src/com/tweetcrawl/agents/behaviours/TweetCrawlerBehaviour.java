@@ -55,6 +55,8 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 			if (tweets != null) {
 				this.storeTweets(tweets, term);
 			}
+		} else {
+			this.block();
 		}
 	}
 

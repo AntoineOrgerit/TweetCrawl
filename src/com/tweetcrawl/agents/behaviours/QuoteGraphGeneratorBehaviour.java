@@ -53,6 +53,8 @@ public class QuoteGraphGeneratorBehaviour extends CyclicBehaviour {
 					this.addQuoteToGraph((Quote) element);
 				}
 			}
+		} else {
+			this.block();
 		}
 	}
 
