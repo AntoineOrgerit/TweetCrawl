@@ -7,7 +7,7 @@ import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 
 /**
- * Manager of the services' registering and consumption
+ * Manager taking care of agents services.
  */
 public class DFServiceManager {
 
@@ -17,10 +17,10 @@ public class DFServiceManager {
 	}
 
 	/**
-	 * Allows to register a service
+	 * Allows to register a service.
 	 * 
-	 * @param agent       agent registering the service
-	 * @param serviceType type of offered service
+	 * @param agent       the agent registering the service
+	 * @param serviceType the type of offered service
 	 */
 	public static void register(Agent agent, String serviceType) {
 		DFAgentDescription dfd = new DFAgentDescription();
@@ -38,12 +38,13 @@ public class DFServiceManager {
 	}
 
 	/**
-	 * Allows to get the AIDs of agents offering a specifeied service
+	 * Allows to get the {@code DFAgentDescription} of each agents offering a
+	 * specified service.
 	 * 
-	 * @param agent       agent requesting the service
-	 * @param serviceType type of resquested service
-	 * @return DFAgentDescriptions array containing the agents offering the
-	 *         requested service
+	 * @param agent       the agent requesting the service
+	 * @param serviceType the type of resquested service
+	 * @return DFAgentDescriptions {@code DFAgentDescription} Array of the agents
+	 *         offering the requested service
 	 */
 	public static DFAgentDescription[] getAgentsForService(Agent agent, String serviceType) {
 		DFAgentDescription dfd = new DFAgentDescription();

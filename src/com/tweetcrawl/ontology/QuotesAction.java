@@ -3,8 +3,9 @@ package com.tweetcrawl.ontology;
 import jade.content.Predicate;
 
 /**
- * Predicate used to inform about the action on quotes treatement from a
- * treatement agent to the QuoteGraphGenerator agent
+ * {@code Predicate} used to inform a {@code QuoteGraphGenerator} agent about a
+ * current state of treatment of a {@code Processor} agent. This information
+ * requires the {@code QuoteOntology} ontology to be used.
  */
 public class QuotesAction implements Predicate {
 
@@ -14,36 +15,36 @@ public class QuotesAction implements Predicate {
 	private String action;
 
 	/**
-	 * Allows to get the term linked to the quotes.
+	 * Allows to get the term associated with the {@code QuotesAction} predicate.
 	 * 
-	 * @return The term of the quotes as a String.
+	 * @return the term associated
 	 */
 	public String getTerm() {
 		return term;
 	}
 
 	/**
-	 * Allows to set the term linked to the quotes.
+	 * Allows to define the term associated with the {@code Quote} predicate.
 	 * 
-	 * @param term - the term of the quotes as a String
+	 * @param term the term to associate
 	 */
 	public void setTerm(String term) {
 		this.term = term;
 	}
 
 	/**
-	 * Allows to get the action linked to the quotes.
+	 * Allows to get the action linked to the current state of treatment.
 	 * 
-	 * @return The action of the quotes as a String.
+	 * @return the current state action
 	 */
 	public String getAction() {
 		return action;
 	}
 
 	/**
-	 * Allows to set the action linked to the quotes.
+	 * Allows to define the action linked to the current state of treatment.
 	 * 
-	 * @param term - the action of the quotes as a String
+	 * @param term the current state action
 	 */
 	public void setAction(String action) {
 		this.action = action;

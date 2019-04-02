@@ -1,21 +1,22 @@
 package com.tweetcrawl.ontology;
 
+import com.tweetcrawl.agents.utils.TweetCrawlerLogger;
+
 import jade.content.onto.BasicOntology;
 import jade.content.onto.Ontology;
 import jade.content.onto.OntologyException;
 import jade.content.schema.ObjectSchema;
 import jade.content.schema.PredicateSchema;
 import jade.content.schema.PrimitiveSchema;
-import jade.util.Logger;
 
 /**
- * Ontology used when informing about a treatement to the QuoteGraphGenerator
- * agent
+ * Ontology used when informing about a current state of treatment of a
+ * {@code Processor} agent.
  */
 public class QuotesActionOntology extends Ontology {
 
 	private static final long serialVersionUID = 1L;
-	private Logger logger = Logger.getMyLogger(this.getClass().getName());
+	private TweetCrawlerLogger logger = new TweetCrawlerLogger(this.getClass().getName());
 
 	public static final String ONTOLOGY_NAME = "QuotesAction-ontology";
 
@@ -26,16 +27,17 @@ public class QuotesActionOntology extends Ontology {
 	private static Ontology instance = new QuotesActionOntology();
 
 	/**
-	 * Allows to get an instance of the ontology
+	 * Allows to get the instance of the ontology.
 	 * 
-	 * @return An instance of the ontology as an <i>Ontology</i> object
+	 * @return {@code Ontology} as instance of the {@code QuotesActionOntology}
+	 *         ontology
 	 */
 	public static Ontology getInstance() {
 		return instance;
 	}
 
 	/**
-	 * Private constructor for the ontology.
+	 * Private constructor of the ontology.
 	 */
 	private QuotesActionOntology() {
 		super(ONTOLOGY_NAME, BasicOntology.getInstance());
@@ -45,7 +47,7 @@ public class QuotesActionOntology extends Ontology {
 			ps.add(QUOTESACTION_TERM, (PrimitiveSchema) this.getSchema(BasicOntology.STRING), ObjectSchema.MANDATORY);
 			ps.add(QUOTESACTION_ACTION, (PrimitiveSchema) this.getSchema(BasicOntology.STRING), ObjectSchema.MANDATORY);
 		} catch (OntologyException oe) {
-			logger.severe("Exception during generation of Quote-transmission-ontology ontology : " + oe);
+			logger.severe("Exception during generation of the ontology QuotesActionOntology: " + oe);
 		}
 	}
 

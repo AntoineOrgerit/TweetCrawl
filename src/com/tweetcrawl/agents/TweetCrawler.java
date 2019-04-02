@@ -3,8 +3,8 @@ package com.tweetcrawl.agents;
 import com.tweetcrawl.agents.behaviours.TweetCrawlerBehaviour;
 import com.tweetcrawl.agents.utils.DFServiceManager;
 import com.tweetcrawl.agents.utils.TweetCrawlerLogger;
-import com.tweetcrawl.ontology.CrawlRequestOntology;
-import com.tweetcrawl.ontology.FileOntology;
+import com.tweetcrawl.ontology.CrawlOntology;
+import com.tweetcrawl.ontology.FileTwitterOntology;
 
 import jade.content.lang.Codec;
 import jade.content.lang.sl.SLCodec;
@@ -12,7 +12,7 @@ import jade.content.onto.Ontology;
 import jade.core.Agent;
 
 /**
- * Agent allowing to get tweets using Twitter's API
+ * Agent allowing to get tweets using Twitter's API.
  */
 public class TweetCrawler extends Agent {
 
@@ -21,8 +21,8 @@ public class TweetCrawler extends Agent {
 
 	/** Ontologies to be used **/
 	private Codec codec = new SLCodec();
-	private Ontology crawlRequestOntology = CrawlRequestOntology.getInstance();
-	private Ontology fileOntology = FileOntology.getInstance();
+	private Ontology crawlRequestOntology = CrawlOntology.getInstance();
+	private Ontology fileOntology = FileTwitterOntology.getInstance();
 
 	@Override
 	protected void setup() {

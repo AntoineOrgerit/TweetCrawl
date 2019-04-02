@@ -15,7 +15,6 @@ import com.tweetcrawl.agents.utils.TweetCrawlerLogger;
 import com.tweetcrawl.ontology.Crawl;
 import com.tweetcrawl.ontology.FileTwitter;
 
-import jade.content.AgentAction;
 import jade.content.ContentManager;
 import jade.content.lang.Codec;
 import jade.content.lang.Codec.CodecException;
@@ -35,7 +34,7 @@ import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
 /**
- * Behaviour of the TweetCrawler agent
+ * Behaviour of the {@code TweetCrawler} agent.
  */
 public class TweetCrawlerBehaviour extends CyclicBehaviour {
 
@@ -45,10 +44,12 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 	private Ontology fileOntology;
 
 	/**
-	 * Constructor of the behaviour
+	 * Constructor of the behaviour.
 	 * 
-	 * @param agent  corresponding TweetCrawler agent
-	 * @param logger logger used to display errors
+	 * @param agent  the {@code TweetCrawler} agent using the behaviour
+	 * @param logger the {@code TweetCrawlerLogger} used to display errors encountered
+	 * @param codec the {@code Codec} used to communicate with the {@code Processor} agents
+	 * @param fileOntology the {@code Ontology} used to communicate with the {@code Processor} agents
 	 */
 	public TweetCrawlerBehaviour(Agent agent, TweetCrawlerLogger logger, Codec codec, Ontology fileOntology) {
 		super(agent);
@@ -65,7 +66,7 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 			QueryResult tweets = this.executeQuery(query);
 			if (tweets != null) {
 				this.storeTweets(tweets, term);
-				this.sendMessageToTreatmentAgents(term);
+				this.sendMessageToProcessorAgents(term);
 			}
 		} else {
 			this.block();
@@ -73,9 +74,9 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 	}
 
 	/**
-	 * Allows to extract the term to search from received messages
+	 * Allows to extract the term to crawl on Twitter API from received messages.
 	 *
-	 * @return String containing the term to search
+	 * @return the term to crawl
 	 */
 	private String getTermToCrawl() {
 		ACLMessage msg = myAgent.receive();
@@ -94,10 +95,10 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 	}
 
 	/**
-	 * Allows to generate the request to send to Twitter's API
+	 * Allows to generate the request to send to Twitter API.
 	 * 
-	 * @param term String containing the term to be searched through the request
-	 * @return Query containing the request to be executed
+	 * @param term the term to be searched through the request
+	 * @return a {@code Query} containing the request to be executed
 	 */
 	private Query generateQuery(String term) {
 		Query query = new Query(term);
@@ -107,10 +108,10 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 	}
 
 	/**
-	 * Allows to get the date X days ago
+	 * Allows to get the date from X days ago.
 	 * 
-	 * @param days Number X of days
-	 * @return String containing the date X days ago, formated as YYYY-MM-dd
+	 * @param days the number X of days
+	 * @return the date X days ago, formated as {@code YYYY-MM-dd}
 	 */
 	private String getDateFromXDays(int days) {
 		LocalDate date = LocalDate.now().minusDays(days);
@@ -119,10 +120,10 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 	}
 
 	/**
-	 * Allows to execute a request using Twitter's API
+	 * Allows to execute a request on Twitter API.
 	 *
-	 * @param query Query request to be executed
-	 * @return QueryResult containing the result of the request
+	 * @param query the {@code Query} to be executed
+	 * @return the {@code QueryResult} of the request
 	 */
 	private QueryResult executeQuery(Query query) {
 		ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -134,7 +135,7 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 		} catch (TwitterException e) {
 			logger.severe("Exception while requesting tweets on TweetCrawlerAgent : " + e);
 		}
-		if(result.getCount() != 0) {
+		if(result != null && result.getCount() != 0) {
 			return result;
 		} else {
 			return null;
@@ -142,10 +143,10 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 	}
 
 	/**
-	 * Allows to store the results of the query in a file
+	 * Allows to store the results of the request in a .txt file.
 	 * 
-	 * @param tweets QueryResult containing the result of the request
-	 * @param term   String containing the search term, used to name the file
+	 * @param tweets {@code QueryResult} containing the result of the request
+	 * @param term   the crawled term, used to name the file
 	 */
 	private void storeTweets(QueryResult tweets, String term) {
 		File fout = new File("./data/tweets_" + term + ".txt");
@@ -159,20 +160,23 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 		}
 	}
 	
-	private void sendMessageToTreatmentAgents(String term) {
+	/**
+	 * Allows to send a message to the {@code Processor} agents.
+	 * 
+	 * @param term the term to send with the message
+	 */
+	private void sendMessageToProcessorAgents(String term) {
 		ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
 		for(DFAgentDescription dfad : DFServiceManager.getAgentsForService(myAgent, "ParseFile-service")) {
 			msg.addReceiver(dfad.getName());
-			System.out.println("Adding receiver " + dfad.getName());
 		}
 		msg.setLanguage(this.codec.getName());
 		msg.setOntology(this.fileOntology.getName());
 		FileTwitter fileTwitter = new FileTwitter();
-		fileTwitter.setName(term);
+		fileTwitter.setTerm(term);
 		try {
 			myAgent.getContentManager().fillContent(msg, fileTwitter);
 			myAgent.send(msg);
-			System.out.println("Message sent");
 		} catch (CodecException | OntologyException e) {
 			logger.severe("Exception while sending the term to the Treatment agents : " + e);
 		}

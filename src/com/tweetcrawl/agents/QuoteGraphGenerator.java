@@ -12,7 +12,7 @@ import jade.content.onto.Ontology;
 import jade.core.Agent;
 
 /**
- * Agent allowing to generate the graph of the retweets
+ * Agent allowing to generate the graph of the retweets.
  */
 public class QuoteGraphGenerator extends Agent {
 
