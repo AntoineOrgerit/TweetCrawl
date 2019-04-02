@@ -11,7 +11,7 @@ import jade.core.Agent;
 import jade.util.Logger;
 
 public class AgentTraitement extends Agent {
-    private int id;
+    public int id;
     private Logger logger = Logger.getMyLogger(this.getClass().getName());
 
     /**

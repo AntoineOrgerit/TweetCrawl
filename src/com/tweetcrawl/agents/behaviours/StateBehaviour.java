@@ -55,7 +55,7 @@ public class StateBehaviour extends FSMBehaviour {
      */
     public StateBehaviour() {
 
-        this.registerFirstState(new OneShotBehaviour() {
+        this.registerFirstState(new OneShotBehaviour(myAgent) {
             boolean result;
 
             @Override
@@ -154,7 +154,6 @@ public class StateBehaviour extends FSMBehaviour {
      */
     private void envoieMsgStartGraph() {
         ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
-        msg.addReceiver(new AID("GraphAgent", AID.ISLOCALNAME));
         msg.addReceiver(DFServiceManager.getAgentsForService(myAgent, "QuoteGraphGenerator-service")[0].getName());
         msg.setLanguage(codec.getName());
         msg.setOntology(quoteActionOntology.getName());
@@ -178,7 +177,6 @@ public class StateBehaviour extends FSMBehaviour {
      */
     private void envoieMsgGraph(String from, String to) {
         ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
-        msg.addReceiver(new AID("GraphAgent", AID.ISLOCALNAME));
         msg.addReceiver(DFServiceManager.getAgentsForService(myAgent, "QuoteGraphGenerator-service")[0].getName());
         msg.setLanguage(codec.getName());
         msg.setOntology(quoteOntology.getName());
@@ -200,7 +198,6 @@ public class StateBehaviour extends FSMBehaviour {
      */
     private void envoieMsgEndGraph() {
         ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
-        msg.addReceiver(new AID("GraphAgent", AID.ISLOCALNAME));
         msg.addReceiver(DFServiceManager.getAgentsForService(myAgent, "QuoteGraphGenerator-service")[0].getName());
         msg.setLanguage(codec.getName());
         msg.setOntology(quoteActionOntology.getName());
@@ -233,7 +230,7 @@ public class StateBehaviour extends FSMBehaviour {
      */
     private boolean getandremoveline() {
         String recherche = "";
-        fileTweet = new File(".\\data\\" + nomFichier + ".txt");
+        fileTweet = new File("./data/" + nomFichier + ".txt");
         Scanner scanner = null;
         try {
             scanner = new Scanner(fileTweet);
