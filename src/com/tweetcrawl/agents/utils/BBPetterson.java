@@ -1,11 +1,14 @@
 package com.tweetcrawl.agents.utils;
 
+import java.io.Serializable;
+
 /**
  * Class used as a mutual exclusion for {@code Processor} agents. The instance
  * should be created by the {@code Launcher} agent.
  */
-public class BBPetterson {
+public class BBPetterson implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private int tour;
 	private boolean[] requests;
 

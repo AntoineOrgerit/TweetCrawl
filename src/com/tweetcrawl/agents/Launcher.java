@@ -28,61 +28,60 @@ import jade.wrapper.PlatformController;
 import jade.wrapper.AgentController;
 
 /**
- * Agent starting the system
+ * Agent starting the system.
  */
 public class Launcher extends GuiAgent {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 	private TweetCrawlerLogger logger = new TweetCrawlerLogger(this.getClass().getName());
-    private static final int NB_PROCESSOR_AGENTS = 2;
+	private static final int NB_PROCESSOR_AGENTS = 2;
 
-    private Codec codec = new SLCodec();
-    private Ontology crawlRequestOntology = CrawlOntology.getInstance();
+	private Codec codec = new SLCodec();
+	private Ontology crawlRequestOntology = CrawlOntology.getInstance();
 	private Ontology jadeManagementOntology = JADEManagementOntology.getInstance();
 
-
-    @Override
-    protected void setup() {
-    	JDialog dialog = logger.info(
+	@Override
+	protected void setup() {
+		JDialog dialog = logger.info(
 				"TweetCrawler launcher agent " + this.getLocalName() + " is launching the AMS, please wait a moment.",
 				this.getLocalName(), false);
-    	try {
-    		BBPetterson.createInstance(NB_PROCESSOR_AGENTS);
-    		this.getContentManager().registerLanguage(codec);
-    		this.getContentManager().registerOntology(crawlRequestOntology);
-    		this.getContentManager().registerOntology(jadeManagementOntology);
-    		this.checkDirectories();
-    		this.generateAgents();
-    		AgentLauncherGUI gui = new AgentLauncherGUI(this);
-    		logger.info("TweetCrawler launcher agent " + this.getLocalName() + " has successfully started the AMS.");
-    		dialog.setVisible(false);
-    		gui.setVisible(true);
-    	} catch(BBPettersonException e) {
-    		logger.severe("Exception during the instanciation of BBPetterson: " + e);
-    	}
-    }
+		try {
+			BBPetterson.createInstance(NB_PROCESSOR_AGENTS);
+			this.getContentManager().registerLanguage(codec);
+			this.getContentManager().registerOntology(crawlRequestOntology);
+			this.getContentManager().registerOntology(jadeManagementOntology);
+			this.checkDirectories();
+			this.generateAgents();
+			AgentLauncherGUI gui = new AgentLauncherGUI(this);
+			logger.info("TweetCrawler launcher agent " + this.getLocalName() + " has successfully started the AMS.");
+			dialog.setVisible(false);
+			gui.setVisible(true);
+		} catch (BBPettersonException e) {
+			logger.severe("Exception during the instanciation of BBPetterson: " + e);
+		}
+	}
 
-    /**
-     * Allows to generate and start all of the agents in the system
-     */
-    private void generateAgents() {
-        PlatformController container = this.getContainerController();
-        try {
-            AgentController tweetCrawler = container.createNewAgent("TweetCrawlerAgent",
-                    "com.tweetcrawl.agents.TweetCrawler", null);
-            tweetCrawler.start();
-            for (int i = 1; i <= NB_PROCESSOR_AGENTS; i++) {
-                AgentController agentTraitement = container.createNewAgent("ProcessorAgent_" + i,
-                        "com.tweetcrawl.agents.Processor", null);
-                agentTraitement.start();
-            }
-            AgentController quoteGraphGenerator = container.createNewAgent("QuoteGraphGeneratorAgent",
+	/**
+	 * Allows to generate and start all of the agents in the system.
+	 */
+	private void generateAgents() {
+		PlatformController container = this.getContainerController();
+		try {
+			AgentController tweetCrawler = container.createNewAgent("TweetCrawlerAgent",
+					"com.tweetcrawl.agents.TweetCrawler", null);
+			tweetCrawler.start();
+			for (int i = 1; i <= NB_PROCESSOR_AGENTS; i++) {
+				AgentController agentTraitement = container.createNewAgent("ProcessorAgent_" + i,
+						"com.tweetcrawl.agents.Processor", null);
+				agentTraitement.start();
+			}
+			AgentController quoteGraphGenerator = container.createNewAgent("QuoteGraphGeneratorAgent",
 					"com.tweetcrawl.agents.QuoteGraphGenerator", null);
 			quoteGraphGenerator.start();
-        } catch (Exception e) {
-            logger.severe("Exception during the starting of the agent " + this.getLocalName() + " : " + e);
-        }
-    }
+		} catch (Exception e) {
+			logger.severe("Exception during the starting of the agent " + this.getLocalName() + " : " + e);
+		}
+	}
 
 	/**
 	 * Checks the directory to see if they have to be created.
@@ -99,7 +98,7 @@ public class Launcher extends GuiAgent {
 	}
 
 	/**
-	 * Allows to shutdown the AMS system
+	 * Allows to shutdown the AMS system.
 	 */
 	public void shutdown() {
 		logger.info("Stopping the system... It can take some time, please wait.");
@@ -130,9 +129,9 @@ public class Launcher extends GuiAgent {
 	}
 
 	/**
-	 * Allows to send a search request to the TweetCrawler agent
+	 * Allows to send a search request to the {@code TweetCrawler} agent.
 	 * 
-	 * @param term term to be searched by the TweetCrawler agent
+	 * @param term term to be searched
 	 */
 	private void sendRequestToCrawler(String term) {
 		ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);

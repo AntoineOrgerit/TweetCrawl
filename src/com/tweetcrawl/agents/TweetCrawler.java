@@ -12,7 +12,7 @@ import jade.content.onto.Ontology;
 import jade.core.Agent;
 
 /**
- * Agent allowing to get tweets using Twitter's API
+ * Agent allowing to get tweets using Twitter's API.
  */
 public class TweetCrawler extends Agent {
 

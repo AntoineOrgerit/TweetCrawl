@@ -21,7 +21,7 @@ import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 
 /**
- * Behaviour of the graph generator agent
+ * Behaviour of the {@code QuoteGraphGenerator} agent.
  */
 public class QuoteGraphGeneratorBehaviour extends CyclicBehaviour {
 
@@ -31,10 +31,11 @@ public class QuoteGraphGeneratorBehaviour extends CyclicBehaviour {
 	private transient Map<String, QuoteGraph> graphsContruction;
 
 	/**
-	 * Constructor of the behaviour
+	 * Constructor of the behaviour.
 	 * 
-	 * @param agent  corresponding graph generator agent
-	 * @param logger logger used to display errors
+	 * @param agent  the {@code QuoteGraphGenerator} agent using the behaviour
+	 * @param logger the {@code TweetCrawlerLogger} used to display errors
+	 *               encountered
 	 */
 	public QuoteGraphGeneratorBehaviour(Agent agent, TweetCrawlerLogger logger) {
 		super(agent);
@@ -59,9 +60,9 @@ public class QuoteGraphGeneratorBehaviour extends CyclicBehaviour {
 	}
 
 	/**
-	 * Allows to retrieve the content of a message
+	 * Allows to retrieve the content of a message.
 	 * 
-	 * @return the content of a message as a ContentElement
+	 * @return the {@code ContentElement} of a message
 	 */
 	private ContentElement getContentOfMessage() {
 		ACLMessage msg = myAgent.receive();
@@ -71,16 +72,16 @@ public class QuoteGraphGeneratorBehaviour extends CyclicBehaviour {
 				ContentManager cm = myAgent.getContentManager();
 				element = cm.extractContent(msg);
 			} catch (CodecException | OntologyException e) {
-				logger.severe("Exception during term reception on QuoteGraphGenerator : " + e);
+				logger.severe("Exception during term reception on QuoteGraphGenerator: " + e);
 			}
 		}
 		return element;
 	}
 
 	/**
-	 * Allows to treat QuotesAction messages content
+	 * Allows to treat {@code QuotesAction} messages content.
 	 * 
-	 * @param quotesAction the QuotesAction object to treat
+	 * @param quotesAction the {@code QuotesAction} to treat
 	 */
 	private void treatQuotesAction(QuotesAction quotesAction) {
 		if (quotesAction.getAction().equals("begin")) {
@@ -93,8 +94,8 @@ public class QuoteGraphGeneratorBehaviour extends CyclicBehaviour {
 	}
 
 	/**
-	 * Allows to create a graph if it doesn't exists and to update the number of
-	 * agents working on a graph
+	 * Allows to create a {@code QuoteGraph} graph if it doesn't exists and to
+	 * update the number of agents working on a graph.
 	 * 
 	 * @param term the term associated to the graph
 	 */
@@ -111,9 +112,9 @@ public class QuoteGraphGeneratorBehaviour extends CyclicBehaviour {
 	}
 
 	/**
-	 * Allows to decrease the number of agents working on a graph, it will also
-	 * convert the graph to a .dot file and generate a view of the corresponding
-	 * .png file if no more agents are working on the graph
+	 * Allows to decrease the number of agents working on a {@code QuoteGraph}
+	 * graph. It will also convert the graph to a .dot file and generate a view of
+	 * the corresponding .png file if no more agents are working on the graph.
 	 * 
 	 * @param term the term associated to the graph
 	 */
@@ -127,25 +128,25 @@ public class QuoteGraphGeneratorBehaviour extends CyclicBehaviour {
 					new GraphImageFrame(term);
 				} else {
 					logger.warning(
-							"Unable to display the graph. You can find the .dot file of the graph under the visualisation subdirectory.");
+							"Unable to display the .dot file. You can find the .dot file of the graph under the visualisation subdirectory.");
 				}
 			} catch (IOException e) {
-				logger.severe("Exception during .dot file generation on QuoteGraphGenerator : " + e);
+				logger.severe("Exception during .dot file generation on QuoteGraphGenerator: " + e);
 			}
 			this.graphsContruction.remove(term);
 		}
 	}
 
 	/**
-	 * Allows to convert the .dot file to a .png file
+	 * Allows to convert the .dot file to a .png file.
 	 * 
 	 * @param term the term associated with the files
-	 * @return true if the conversion is a success, false if an error occures
+	 * @return {@code true} if the conversion is a success, {@code false} otherwise
 	 */
 	private boolean convertDotToPng(String term) {
 		try {
-			ProcessBuilder pb = new ProcessBuilder("dot", "-Tpng",
-					"./visualisation/tweets_" + term + ".dot", "-o./visualisation/tweets_" + term + ".png");
+			ProcessBuilder pb = new ProcessBuilder("dot", "-Tpng", "./visualisation/tweets_" + term + ".dot",
+					"-o./visualisation/tweets_" + term + ".png");
 			Process p = pb.start();
 			return p.waitFor() == 0;
 		} catch (IOException | InterruptedException e) {
@@ -156,7 +157,7 @@ public class QuoteGraphGeneratorBehaviour extends CyclicBehaviour {
 	}
 
 	/**
-	 * Allows to add a quote to a graph
+	 * Allows to add a quote to an existing {@code QuoteGraph} graph.
 	 * 
 	 * @param quote the quote to add to its corresponding graph
 	 */
