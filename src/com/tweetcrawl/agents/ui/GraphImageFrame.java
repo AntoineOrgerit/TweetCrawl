@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 
 import com.tweetcrawl.agents.utils.TweetCrawlerLogger;
 
@@ -21,20 +23,15 @@ public class GraphImageFrame extends JFrame {
 	 * @param logger logger used to display errors
 	 */
 	public GraphImageFrame(String term, TweetCrawlerLogger logger) {
-		GraphImageComponent component;
 		ImageIcon imageIcon = new ImageIcon("./img/twitter-logo-vector-png-clipart-1.png");
-		try {
-			component = new GraphImageComponent(term);
-			this.add(component);
+			ImageIcon ii = new ImageIcon("./visualisation/tweets_" + term + ".png");
+			this.getContentPane().add(new JScrollPane(new JLabel(ii)));
 			this.setTitle("Retweets linked to the term " + term);
 			this.setIconImage(imageIcon.getImage());
-			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			this.pack();
 			this.setLocationRelativeTo(null);
 			this.setVisible(true);
-		} catch (IOException e) {
-			logger.severe("Exception during .png display on QuoteGraphGenerator: " + e);
-		}
 
 	}
 
