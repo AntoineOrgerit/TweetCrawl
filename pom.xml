@@ -9,8 +9,11 @@
 	<name>TweetCrawl</name>
 
 	<repositories>
-		<!-- unreachable <repository> <id>tilab</id> <url>http://jade.tilab.com/maven/</url> 
-			</repository> -->
+		<!-- unreachable
+		<repository>
+			<id>tilab</id>
+			<url>http://jade.tilab.com/maven/</url> 
+		</repository> -->
 	</repositories>
 
 	<build>
@@ -24,36 +27,30 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.3.2</version>
+				<configuration>
+					<mainClass>jade.Boot</mainClass>
+					<arguments>
+						<argument>-cp target/classes</argument>
+						<argument>-name TweetCrawler</argument>
+						<argument>Launcher:com.tweetcrawl.agents.AgentLauncher</argument>
+					</arguments>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
-	<profiles>
-		<profile>
-			<id>jade-agent</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>exec-maven-plugin</artifactId>
-						<version>1.3.2</version>
-						<configuration>
-							<mainClass>jade.Boot</mainClass>
-							<arguments>
-								<argument>-cp target/classes</argument>
-								<argument>-name TweetCrawler</argument>
-								<argument>Launcher:com.tweetcrawl.agents.AgentLauncher</argument>
-							</arguments>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/com.tilab.jade/jade -->
-		<!-- unreachable <dependency> <groupId>com.tilab.jade</groupId> <artifactId>jade</artifactId> 
-			<version>4.4.0</version> </dependency> -->
+		<!-- unreachable
+		<dependency>
+			<groupId>com.tilab.jade</groupId>
+			<artifactId>jade</artifactId> 
+			<version>4.4.0</version>
+		</dependency> -->
 		<!-- alternative: https://mvnrepository.com/artifact/net.sf.ingenias/jade -->
 		<dependency>
 			<groupId>net.sf.ingenias</groupId>
