@@ -9,9 +9,9 @@ import jade.content.schema.PrimitiveSchema;
 import jade.util.Logger;
 
 /**
- * Ontology used when requesting a crawl action to the TweetCrawler
+ * Ontology used when requesting a crawl action to a {@code TweetCrawler} agent.
  */
-public class CrawlRequestOntology extends Ontology {
+public class CrawlOntology extends Ontology {
 
 	private static final long serialVersionUID = 1L;
 	private Logger logger = Logger.getMyLogger(this.getClass().getName());
@@ -21,24 +21,23 @@ public class CrawlRequestOntology extends Ontology {
 	public static final String CRAWL = "Crawl";
 	public static final String CRAWL_TERM = "term";
 
-	private static Ontology instance = new CrawlRequestOntology();
+	private static Ontology instance = new CrawlOntology();
 
 	/**
-	 * Allows to get an instance of the ontology
+	 * Allows to get the instance of the ontology.
 	 * 
-	 * @return An instance of the ontology as an <i>Ontology</i> object
+	 * @return {@code Ontology} as instance of the {@code CrawlOntology} ontology
 	 */
 	public static Ontology getInstance() {
 		return instance;
 	}
 
 	/**
-	 * Private constructor for the ontology.
+	 * Private constructor of the ontology.
 	 */
-	private CrawlRequestOntology() {
+	private CrawlOntology() {
 		super(ONTOLOGY_NAME, BasicOntology.getInstance());
 		try {
-			// Binding of the used predicate
 			this.add(new AgentActionSchema(CRAWL), Crawl.class);
 			AgentActionSchema ps = (AgentActionSchema) this.getSchema(CRAWL);
 			ps.add(CRAWL_TERM, (PrimitiveSchema) this.getSchema(BasicOntology.STRING), ObjectSchema.MANDATORY);

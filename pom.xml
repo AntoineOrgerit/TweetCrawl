@@ -36,7 +36,7 @@
 					<arguments>
 						<argument>-cp target/classes</argument>
 						<argument>-name TweetCrawler</argument>
-						<argument>Launcher:com.tweetcrawl.agents.AgentLauncher</argument>
+						<argument>Launcher:com.tweetcrawl.agents.Launcher</argument>
 					</arguments>
 				</configuration>
 			</plugin>

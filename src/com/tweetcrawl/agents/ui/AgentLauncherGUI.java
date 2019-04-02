@@ -17,7 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.tweetcrawl.agents.AgentLauncher;
+import com.tweetcrawl.agents.Launcher;
 
 import jade.gui.GuiEvent;
 
@@ -27,7 +27,7 @@ import jade.gui.GuiEvent;
 public class AgentLauncherGUI extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	private AgentLauncher agent;
+	private Launcher agent;
 
 	/** types of action performed **/
 	public static final int EXIT = 0;
@@ -41,7 +41,7 @@ public class AgentLauncherGUI extends JFrame implements ActionListener {
 	 * 
 	 * @param agent launcher agent using the GUI
 	 */
-	public AgentLauncherGUI(AgentLauncher agent) {
+	public AgentLauncherGUI(Launcher agent) {
 		this.agent = agent;
 		this.generateFrame();
 	}

@@ -3,7 +3,8 @@ package com.tweetcrawl.ontology;
 import jade.content.AgentAction;
 
 /**
- * Action used to request a crawling to TweetCrawler
+ * {@code AgentAction} used to request a crawl to a {@code TweetCrawler} agent.
+ * This request requires the {@code CrawlOntology} ontology to be used.
  */
 public class Crawl implements AgentAction {
 
@@ -11,18 +12,18 @@ public class Crawl implements AgentAction {
 	private String term;
 
 	/**
-	 * Allows to get the search term
+	 * Allows to get the term associated with the {@code Crawl} action.
 	 * 
-	 * @return String containing the search term
+	 * @return the term associated
 	 */
 	public String getTerm() {
 		return term;
 	}
 
 	/**
-	 * Allows to define the serch term
+	 * Allows to define the term associated with the {@code Crawl} action.
 	 * 
-	 * @param term String containing the search term
+	 * @param term the term to associate
 	 */
 	public void setTerm(String term) {
 		this.term = term;

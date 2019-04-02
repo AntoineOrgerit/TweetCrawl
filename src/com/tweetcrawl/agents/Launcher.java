@@ -9,7 +9,7 @@ import com.tweetcrawl.agents.utils.BBPetterson;
 import com.tweetcrawl.agents.utils.DFServiceManager;
 import com.tweetcrawl.agents.utils.TweetCrawlerLogger;
 import com.tweetcrawl.ontology.Crawl;
-import com.tweetcrawl.ontology.CrawlRequestOntology;
+import com.tweetcrawl.ontology.CrawlOntology;
 
 import jade.content.AgentAction;
 import jade.content.lang.Codec;
@@ -29,7 +29,7 @@ import jade.wrapper.AgentController;
 /**
  * Agent starting the system
  */
-public class AgentLauncher extends GuiAgent {
+public class Launcher extends GuiAgent {
 
     private static final long serialVersionUID = 1L;
 	private TweetCrawlerLogger logger = new TweetCrawlerLogger(this.getClass().getName());
@@ -37,7 +37,7 @@ public class AgentLauncher extends GuiAgent {
     private BBPetterson bb = new BBPetterson(numberOfTreatmentAgents);
 
     private Codec codec = new SLCodec();
-    private Ontology crawlRequestOntology = CrawlRequestOntology.getInstance();
+    private Ontology crawlRequestOntology = CrawlOntology.getInstance();
 	private Ontology jadeManagementOntology = JADEManagementOntology.getInstance();
 
 

@@ -9,8 +9,8 @@ import jade.content.schema.PrimitiveSchema;
 import jade.util.Logger;
 
 /**
- * Ontology used when informing about a treatement to the QuoteGraphGenerator
- * agent
+ * Ontology used when informing about a current state of treatment of a
+ * {@code Processor} agent.
  */
 public class QuotesActionOntology extends Ontology {
 
@@ -26,16 +26,17 @@ public class QuotesActionOntology extends Ontology {
 	private static Ontology instance = new QuotesActionOntology();
 
 	/**
-	 * Allows to get an instance of the ontology
+	 * Allows to get the instance of the ontology.
 	 * 
-	 * @return An instance of the ontology as an <i>Ontology</i> object
+	 * @return {@code Ontology} as instance of the {@code QuotesActionOntology}
+	 *         ontology
 	 */
 	public static Ontology getInstance() {
 		return instance;
 	}
 
 	/**
-	 * Private constructor for the ontology.
+	 * Private constructor of the ontology.
 	 */
 	private QuotesActionOntology() {
 		super(ONTOLOGY_NAME, BasicOntology.getInstance());

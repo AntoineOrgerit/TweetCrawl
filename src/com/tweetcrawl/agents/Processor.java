@@ -2,7 +2,7 @@ package com.tweetcrawl.agents;
 
 import com.tweetcrawl.agents.behaviours.StateBehaviour;
 import com.tweetcrawl.agents.utils.DFServiceManager;
-import com.tweetcrawl.ontology.FileOntology;
+import com.tweetcrawl.ontology.FileTwitterOntology;
 import com.tweetcrawl.ontology.QuoteOntology;
 import com.tweetcrawl.ontology.QuotesActionOntology;
 import jade.content.lang.Codec;
@@ -11,7 +11,7 @@ import jade.content.onto.Ontology;
 import jade.core.Agent;
 import jade.util.Logger;
 
-public class AgentTraitement extends Agent {
+public class Processor extends Agent {
     public int id;
     private Logger logger = Logger.getMyLogger(this.getClass().getName());
 
@@ -21,7 +21,7 @@ public class AgentTraitement extends Agent {
     private Codec codec = new SLCodec();
     private Ontology quoteOntology = QuoteOntology.getInstance();
     private Ontology quoteActionOntology = QuotesActionOntology.getInstance();
-    private Ontology fileTwitter = FileOntology.getInstance();
+    private Ontology fileTwitter = FileTwitterOntology.getInstance();
     		
     @Override
     protected void setup() {

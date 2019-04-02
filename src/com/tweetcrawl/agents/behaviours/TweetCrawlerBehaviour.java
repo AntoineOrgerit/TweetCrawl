@@ -168,7 +168,7 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 		msg.setLanguage(this.codec.getName());
 		msg.setOntology(this.fileOntology.getName());
 		FileTwitter fileTwitter = new FileTwitter();
-		fileTwitter.setName(term);
+		fileTwitter.setTerm(term);
 		try {
 			myAgent.getContentManager().fillContent(msg, fileTwitter);
 			myAgent.send(msg);

@@ -1,6 +1,6 @@
 package com.tweetcrawl.agents.behaviours;
 
-import com.tweetcrawl.agents.AgentTraitement;
+import com.tweetcrawl.agents.Processor;
 import com.tweetcrawl.agents.utils.BBPetterson;
 import com.tweetcrawl.agents.utils.DFServiceManager;
 import com.tweetcrawl.ontology.FileTwitter;
@@ -86,8 +86,8 @@ public class StateBehaviour extends FSMBehaviour {
 
 			@Override
 			public int onEnd() {
-				BBPetterson.tour = (((AgentTraitement) myAgent).id % BBPetterson.demandes.length) + 1;
-				BBPetterson.demandes[((AgentTraitement) myAgent).id - 1] = true;
+				BBPetterson.tour = (((Processor) myAgent).id % BBPetterson.demandes.length) + 1;
+				BBPetterson.demandes[((Processor) myAgent).id - 1] = true;
 				try {
 					Thread.sleep(500);
 				} catch (InterruptedException e) {
@@ -105,7 +105,7 @@ public class StateBehaviour extends FSMBehaviour {
 
 			@Override
 			public int onEnd() {
-				return ((BBPetterson.tour == (((AgentTraitement) myAgent).id) || noDemande()) ? 1 : 0);
+				return ((BBPetterson.tour == (((Processor) myAgent).id) || noDemande()) ? 1 : 0);
 			}
 		}, "demande");
 
@@ -136,7 +136,7 @@ public class StateBehaviour extends FSMBehaviour {
 
 			@Override
 			public int onEnd() {
-				BBPetterson.demandes[((AgentTraitement) myAgent).id - 1] = false;
+				BBPetterson.demandes[((Processor) myAgent).id - 1] = false;
 				return isEnd ? 1 : 0;
 			}
 		}, "lectureFichier");
@@ -306,7 +306,7 @@ public class StateBehaviour extends FSMBehaviour {
 	 */
 	private boolean noDemande() {
 		for (int i = 0; i < BBPetterson.demandes.length; i++) {
-			if (i != (((AgentTraitement) myAgent).id - 1) && BBPetterson.demandes[i] == false) {
+			if (i != (((Processor) myAgent).id - 1) && BBPetterson.demandes[i] == false) {
 				return true;
 			}
 		}
@@ -326,7 +326,7 @@ public class StateBehaviour extends FSMBehaviour {
 			try {
 				Predicate pre = (Predicate) cm.extractContent(msg);
 				FileTwitter fl = (FileTwitter) pre;
-				nomFichier = fl.getName();
+				nomFichier = fl.getTerm();
 				logger.info(nomFichier);
 				return true;
 			} catch (Codec.CodecException | OntologyException e) {
