@@ -16,6 +16,12 @@ public class FileOntology extends Ontology {
 
     public static final String FILE = "File";
     public static final String NAME = "name";
+    
+    private static Ontology instance = new FileOntology();
+    
+    public static Ontology getInstance() {
+		return instance;
+	}
 
     private FileOntology() {
 

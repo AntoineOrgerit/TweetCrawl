@@ -1,13 +1,11 @@
 package com.tweetcrawl.agents.behaviours;
 
-
 import com.tweetcrawl.agents.AgentTraitement;
 import com.tweetcrawl.agents.utils.BBPetterson;
 import com.tweetcrawl.agents.utils.DFServiceManager;
 import com.tweetcrawl.ontology.FileTwitter;
 import com.tweetcrawl.ontology.Quote;
 import com.tweetcrawl.ontology.QuotesAction;
-import jade.content.AgentAction;
 import jade.content.ContentManager;
 import jade.content.Predicate;
 import jade.content.lang.Codec;
@@ -15,318 +13,326 @@ import jade.content.lang.Codec.CodecException;
 import jade.content.onto.Ontology;
 import jade.content.onto.OntologyException;
 import jade.content.onto.basic.Action;
-import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.FSMBehaviour;
 import jade.core.behaviours.OneShotBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.util.Logger;
+import twitter4j.Status;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class StateBehaviour extends FSMBehaviour {
-    private Logger logger;
-    private Codec codec;
-    private Ontology quoteOntology;
-    private Ontology quoteActionOntology;
+	private Logger logger;
+	private Codec codec;
+	private Ontology quoteOntology;
+	private Ontology quoteActionOntology;
 
-    private static String nomFichier;
-    private File fileTweet;
-    private boolean isEnd;
-    private String from = "";
-    private ArrayList<String> rtTo = new ArrayList<>();
+	private static String nomFichier;
+	private File fileTweet;
+	private boolean isEnd;
+	private String from = "";
+	private ArrayList<String> rtTo = new ArrayList<>();
 
-    public StateBehaviour(Agent agent, Logger logger, Codec codec, Ontology quoteOntology, Ontology quoteActionOntology) {
-        super(agent);
-        this.logger = logger;
-        this.codec = codec;
-        this.quoteOntology = quoteOntology;
-        this.quoteActionOntology = quoteActionOntology;
-    }
+	/**
+	 * Define the differents states of agent - Reception - Wait - Demand - Access to
+	 * critical section (read line)
+	 */
+	public StateBehaviour(Agent agent, Logger logger, Codec codec, Ontology quoteOntology,
+			Ontology quoteActionOntology) {
+		super(agent);
+		this.logger = logger;
+		this.codec = codec;
+		this.quoteOntology = quoteOntology;
+		this.quoteActionOntology = quoteActionOntology;
 
+		this.registerFirstState(new OneShotBehaviour(myAgent) {
+			boolean result;
 
-    /**
-     * Define the differents states of agent - Reception - Wait - Demand - Access to critical section (read line)
-     */
-    public StateBehaviour() {
+			@Override
+			public void action() {
+				result = receptionMsg();
+				if (result) {
+					fileTweet = new File("./data/tweets_" + nomFichier + ".txt");
+					envoieMsgStartGraph();
+					envoieMsgStartCloud();
+					isEnd = false;
+				}
+			}
 
-        this.registerFirstState(new OneShotBehaviour(myAgent) {
-            boolean result;
+			@Override
+			public int onEnd() {
+				return result ? 1 : 0;
+			}
 
-            @Override
-            public void action() {
-                logger.info("Attente reception message");
-                result = receptionMsg();
-                if (result) {
-                    envoieMsgStartGraph();
-                    envoieMsgStartCloud();
-                }
-            }
+		}, "receptionMessage");
 
-            @Override
-            public int onEnd() {
-                return result ? 1 : 0;
-            }
+		this.registerState(new OneShotBehaviour(myAgent) {
+			@Override
+			public void action() {
+				//logger.info("Attente passive");
+			}
 
-        }, "receptionMessage");
+			@Override
+			public int onEnd() {
+				BBPetterson.tour = (((AgentTraitement) myAgent).id % BBPetterson.demandes.length) + 1;
+				BBPetterson.demandes[((AgentTraitement) myAgent).id - 1] = true;
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					logger.severe(e.getMessage());
+				}
+				return 1;
+			}
+		}, "attente");
 
-        this.registerState(new OneShotBehaviour(myAgent) {
-            @Override
-            public void action() {
-                logger.info("Attente passive");
-            }
+		this.registerState(new OneShotBehaviour(myAgent) {
+			@Override
+			public void action() {
+				//BBPetterson.afficheDemande();
+			}
 
-            @Override
-            public int onEnd() {
-                BBPetterson.tour = (((AgentTraitement) myAgent).id + 1) % BBPetterson.demandes.length;
-                BBPetterson.demandes[((AgentTraitement) myAgent).id] = 1;
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    logger.severe(e.getMessage());
-                }
-                return 1;
-            }
-        }, "attente");
+			@Override
+			public int onEnd() {
+				return ((BBPetterson.tour == (((AgentTraitement) myAgent).id) || noDemande()) ? 1 : 0);
+			}
+		}, "demande");
 
-        this.registerState(new OneShotBehaviour(myAgent) {
-            @Override
-            public void action() {
-                BBPetterson.afficheDemande();
-            }
+		this.registerState(new OneShotBehaviour(myAgent) {
+			boolean line;
 
-            @Override
-            public int onEnd() {
-                return ((BBPetterson.tour == ((AgentTraitement) myAgent).id || noDemande()) ? 1 : 0);
-            }
-        }, "demande");
+			@Override
+			public void action() {
+				if (fileTweet.exists()) {
+					line = getandremoveline();
+					if (line) {
+						for (String to : rtTo) {
+							envoieMsgGraph(from, to);
+						}
+						rtTo.clear();
+						envoieMsgCloud();
+						isEnd = false;
+					} else {
+						isEnd = fileTweet.delete();
+						envoieMsgEndGraph();
+					}
+				} else {
+					envoieMsgEndGraph();
+					envoieMsgEndCloud();
+					isEnd = true;
+				}
+			}
 
-        this.registerState(new OneShotBehaviour(myAgent) {
-            boolean line;
+			@Override
+			public int onEnd() {
+				BBPetterson.demandes[((AgentTraitement) myAgent).id - 1] = false;
+				return isEnd ? 1 : 0;
+			}
+		}, "lectureFichier");
 
-            @Override
-            public void action() {
-                if (fileTweet.exists()) {
-                    line = getandremoveline();
-                    if (line) {
-                        for (String to : rtTo) {
-                            envoieMsgGraph(from, to);
-                        }
-                        envoieMsgCloud();
-                        isEnd = false;
-                    } else {
-                        isEnd = fileTweet.delete();
-                    }
-                } else {
-                    envoieMsgEndGraph();
-                    envoieMsgEndCloud();
-                }
-            }
+		this.registerTransition("receptionMessage", "receptionMessage", 0);
+		this.registerTransition("receptionMessage", "attente", 1);
+		this.registerTransition("attente", "demande", 1);
+		this.registerTransition("demande", "demande", 0);
+		this.registerTransition("demande", "lectureFichier", 1);
+		this.registerTransition("lectureFichier", "attente", 0);
+		this.registerTransition("lectureFichier", "receptionMessage", 1);
 
-            @Override
-            public int onEnd() {
-                BBPetterson.demandes[((AgentTraitement) myAgent).id] = 0;
-                return isEnd ? 1 : 0;
-            }
-        }, "lectureFichier");
+	}// end of constructor
 
+	// -------------- Messages for the Graph Agent - Start - Process - End
 
-        this.registerTransition("receptionMessage", "receptionMessage", 0);
-        this.registerTransition("receptionMessage", "attente", 1);
-        this.registerTransition("attente", "demande", 1);
-        this.registerTransition("demande", "demande", 0);
-        this.registerTransition("demande", "lectureFichier", 1);
-        this.registerTransition("lectureFichier", "attente", 0);
-        this.registerTransition("lectureFichier", "receptionMessage", 1);
+	/**
+	 * Message to begin the treatment of GraphAgent, contains the Action
+	 * (QuoteAction :term filename :action begin)
+	 */
+	private void envoieMsgStartGraph() {
+		ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+		msg.addReceiver(DFServiceManager.getAgentsForService(myAgent, "QuoteGraphGenerator-service")[0].getName());
+		msg.setLanguage(codec.getName());
+		msg.setOntology(quoteActionOntology.getName());
+		QuotesAction qa = new QuotesAction();
+		qa.setTerm(nomFichier);
+		qa.setAction("begin");
+		try {
+			myAgent.getContentManager().fillContent(msg, qa);
+			myAgent.send(msg);
+		} catch (CodecException | OntologyException e) {
+			logger.severe("Exception while sending the term to the TweetCrawler agent : " + e);
+		}
+	}
 
+	/**
+	 * Message sent to the GraphAgent, contains the Predicate (Quote :term filename
+	 * :original from :repeater to)
+	 *
+	 * @param from the sender of the tweet
+	 * @param to   the receiver of the tweet
+	 */
+	private void envoieMsgGraph(String from, String to) {
+		ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+		msg.addReceiver(DFServiceManager.getAgentsForService(myAgent, "QuoteGraphGenerator-service")[0].getName());
+		msg.setLanguage(codec.getName());
+		msg.setOntology(quoteOntology.getName());
+		Quote q = new Quote();
+		q.setTerm(nomFichier);
+		q.setOriginal(from);
+		q.setRepeater(to);
 
-    }//end of constructor
+		try {
+			myAgent.getContentManager().fillContent(msg, q);
+			myAgent.send(msg);
+		} catch (CodecException | OntologyException e) {
+			logger.severe("Exception while sending the term to the TweetCrawler agent : " + e);
+		}
+	}
 
-    //-------------- Messages for the Graph Agent - Start - Process - End
+	/**
+	 * Message to end the treatment of GraphAgent, contains the Action (QuoteAction
+	 * :term filename :action end)
+	 */
+	private void envoieMsgEndGraph() {
+		System.out.println(myAgent.getName() + " is sending endGraphAction");
+		ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+		msg.addReceiver(DFServiceManager.getAgentsForService(myAgent, "QuoteGraphGenerator-service")[0].getName());
+		msg.setLanguage(codec.getName());
+		msg.setOntology(quoteActionOntology.getName());
+		QuotesAction qa = new QuotesAction();
+		qa.setTerm(nomFichier);
+		qa.setAction("end");
+		try {
+			myAgent.getContentManager().fillContent(msg, qa);
+			myAgent.send(msg);
+		} catch (CodecException | OntologyException e) {
+			logger.severe("Exception while sending the term to the TweetCrawler agent : " + e);
+		}
+	}
 
-    /**
-     * Message to begin the treatment of GraphAgent, contains the Action (QuoteAction :term filename :action begin)
-     */
-    private void envoieMsgStartGraph() {
-        ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
-        msg.addReceiver(DFServiceManager.getAgentsForService(myAgent, "QuoteGraphGenerator-service")[0].getName());
-        msg.setLanguage(codec.getName());
-        msg.setOntology(quoteActionOntology.getName());
-        QuotesAction qa = new QuotesAction();
-        qa.setTerm(nomFichier);
-        qa.setAction("begin");
-        Action action = new Action(myAgent.getAID(), (AgentAction) qa);
-        try {
-            myAgent.getContentManager().fillContent(msg, action);
-            myAgent.send(msg);
-        } catch (CodecException | OntologyException e) {
-            logger.severe("Exception while sending the term to the TweetCrawler agent : " + e);
-        }
-    }
+	// -------------- Messages for the Cloud Agent - Start - Process - End
+	private void envoieMsgStartCloud() {
+	}
 
-    /**
-     * Message sent to the GraphAgent, contains the Predicate (Quote :term filename :original from :repeater to)
-     *
-     * @param from the sender of the tweet
-     * @param to   the receiver of the tweet
-     */
-    private void envoieMsgGraph(String from, String to) {
-        ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
-        msg.addReceiver(DFServiceManager.getAgentsForService(myAgent, "QuoteGraphGenerator-service")[0].getName());
-        msg.setLanguage(codec.getName());
-        msg.setOntology(quoteOntology.getName());
-        Quote q = new Quote();
-        q.setTerm(nomFichier);
-        q.setOriginal(from);
-        q.setRepeater(to);
+	private void envoieMsgEndCloud() {
+	}
 
-        try {
-            myAgent.getContentManager().fillContent(msg, q);
-            myAgent.send(msg);
-        } catch (CodecException | OntologyException e) {
-            logger.severe("Exception while sending the term to the TweetCrawler agent : " + e);
-        }
-    }
+	private void envoieMsgCloud() {
+	}
 
-    /**
-     * Message to end the treatment of GraphAgent, contains the Action (QuoteAction :term filename :action end)
-     */
-    private void envoieMsgEndGraph() {
-        ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
-        msg.addReceiver(DFServiceManager.getAgentsForService(myAgent, "QuoteGraphGenerator-service")[0].getName());
-        msg.setLanguage(codec.getName());
-        msg.setOntology(quoteActionOntology.getName());
-        QuotesAction qa = new QuotesAction();
-        qa.setTerm(nomFichier);
-        qa.setAction("end");
-        Action action = new Action(myAgent.getAID(), (AgentAction) qa);
-        try {
-            myAgent.getContentManager().fillContent(msg, action);
-            myAgent.send(msg);
-        } catch (CodecException | OntologyException e) {
-            logger.severe("Exception while sending the term to the TweetCrawler agent : " + e);
-        }
-    }
+	/**
+	 * Allows to read the file, treat the line and remove it
+	 *
+	 * @return true if there is still a line, return false otherwise
+	 */
+	private boolean getandremoveline() {
+		String recherche = "";
+		Scanner scanner = null;
+		try {
+			scanner = new Scanner(fileTweet);
+			if (scanner.hasNextLine()) {
+				recherche = scanner.nextLine();
+				System.out.println(recherche);
+				findPatternLine(recherche);
+			}
+		} catch (FileNotFoundException e) {
+			logger.severe(e.getMessage());
+		} finally {
+			if (scanner != null) {
+				scanner.close();
+			}
+		}
+		if (recherche.length() != 0) {
+			removeLine(recherche);
+			return true;
+		}
+		return false;
+	}
 
-    //-------------- Messages for the Cloud Agent - Start - Process - End
-    private void envoieMsgStartCloud() {
-    }
+	/**
+	 * Find the name of the tweet sender and the receiver retweeted
+	 *
+	 * @param recherche the String to analyse
+	 */
+	private void findPatternLine(String recherche) {
+		final Pattern patternFrom = Pattern.compile("from:'(.*?)'");
+		final Pattern patternRT = Pattern.compile("@[a-zA-Z0-9_]*");
+		Matcher matcherFROM = patternFrom.matcher(recherche);
+		Matcher matcherRT = patternRT.matcher(recherche);
+		if (matcherFROM.find()) {
+			from = matcherFROM.group(1);
+		}
+		while (matcherRT.find()) {
+			rtTo.add(matcherRT.group());
+		}
+	}
 
-    private void envoieMsgEndCloud() {
-    }
+	/**
+	 * Allows to remove the line passed in parameter and recreate the File
+	 *
+	 * @param recherche the line to delete
+	 */
+	private void removeLine(String recherche) {
+		StringBuffer sb = new StringBuffer("");
+		String line;
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileTweet), StandardCharsets.UTF_8))) {
+			while((line = br.readLine()) != null) {
+				if(!line.equals(recherche)) {
+					sb.append(line + "\n");
+				}
+			}
+			br.close();
+			FileWriter writer = new FileWriter(fileTweet);
+			writer.write(sb.toString());
+			writer.close();
+		} catch (IOException e) {
+			logger.severe("Exception while storing the tweets from TweetCrawlerAgent : " + e);
+		}
+	}
 
-    private void envoieMsgCloud() {
-    }
+	/**
+	 * Check if there is demand from agent
+	 *
+	 * @return true if there is a demande, return false otherwise
+	 */
+	private boolean noDemande() {
+		for (int i = 0; i < BBPetterson.demandes.length; i++) {
+			if (i != (((AgentTraitement) myAgent).id - 1) && BBPetterson.demandes[i] == false) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-    /**
-     * Allows to read the file, treat the line and remove it
-     *
-     * @return true if there is still a line, return false otherwise
-     */
-    private boolean getandremoveline() {
-        String recherche = "";
-        fileTweet = new File("./data/" + nomFichier + ".txt");
-        Scanner scanner = null;
-        try {
-            scanner = new Scanner(fileTweet);
-            if (scanner.hasNextLine()) {
-                recherche = scanner.nextLine();
-                findPatternLine(recherche);
-            }
-        } catch (FileNotFoundException e) {
-            logger.severe(e.getMessage());
-        } finally {
-            if (scanner != null) {
-                scanner.close();
-            }
-        }
-        if (recherche.length() != 0) {
-            removeLine(recherche);
-            return true;
-        }
-        return false;
-    }
+	/**
+	 * Allows the agent to retrieve message from the TweetCrawler
+	 *
+	 * @return true if the message was received, return false otherwise
+	 */
+	private boolean receptionMsg() {
+		ACLMessage msg = myAgent.receive();
+		if (msg != null) {
+			ContentManager cm = myAgent.getContentManager();
 
-    /**
-     * Find the name of the tweet sender and the receiver retweeted
-     *
-     * @param recherche the String to analyse
-     */
-    private void findPatternLine(String recherche) {
-        final Pattern patternFrom = Pattern.compile("from:'(.*?)'");
-        final Pattern patternRT = Pattern.compile("@[a-zA-Z0-9_]*");
-        Matcher matcherFROM = patternFrom.matcher(recherche);
-        Matcher matcherRT = patternRT.matcher(recherche);
-        if (matcherFROM.find()) {
-            from = matcherFROM.group(1);
-        }
-        while (matcherRT.find()) {
-            rtTo.add(matcherRT.group());
-        }
-    }
-
-    /**
-     * Allows to remove the line passed in parameter and recreate the File
-     *
-     * @param recherche the line to delete
-     */
-    private void removeLine(String recherche) {
-
-        try {
-            File tmp = new File("temporaire");
-            PrintWriter out = new PrintWriter(new FileWriter(tmp));
-
-            Files.lines(fileTweet.toPath()).filter(line -> !line.contains(recherche)).forEach(out::println);
-            out.flush();
-            out.close();
-            if (tmp.renameTo(fileTweet)) {
-                logger.info("Line removed with succes !");
-            }
-
-        } catch (IOException e) {
-            logger.severe(e.getMessage());
-        }
-    }
-
-    /**
-     * Check if there is demand from agent
-     *
-     * @return true if there is a demande, return false otherwise
-     */
-    private boolean noDemande() {
-        for (int i = 0; i < BBPetterson.demandes.length; i++) {
-            if (i != ((AgentTraitement) myAgent).id && BBPetterson.demandes[i] == 1) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Allows the agent to retrieve message from the TweetCrawler
-     *
-     * @return true if the message was received, return false otherwise
-     */
-    private boolean receptionMsg() {
-        ACLMessage msg = myAgent.receive();
-        if (msg != null) {
-            ContentManager cm = myAgent.getContentManager();
-
-            try {
-                Predicate pre = (Predicate) cm.extractContent(msg);
-                FileTwitter fl = (FileTwitter) pre;
-                nomFichier = fl.getName();
-                logger.info(nomFichier);
-                return true;
-            } catch (Codec.CodecException|OntologyException e) {
-                logger.severe(e.getMessage());
-            }
-        }
-        return false;
-    }
+			try {
+				Predicate pre = (Predicate) cm.extractContent(msg);
+				FileTwitter fl = (FileTwitter) pre;
+				nomFichier = fl.getName();
+				logger.info(nomFichier);
+				return true;
+			} catch (Codec.CodecException | OntologyException e) {
+				logger.severe(e.getMessage());
+			}
+		}
+		return false;
+	}
 }

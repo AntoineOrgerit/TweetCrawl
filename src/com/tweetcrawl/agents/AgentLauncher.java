@@ -5,6 +5,7 @@ import java.io.File;
 import javax.swing.JDialog;
 
 import com.tweetcrawl.agents.ui.AgentLauncherGUI;
+import com.tweetcrawl.agents.utils.BBPetterson;
 import com.tweetcrawl.agents.utils.DFServiceManager;
 import com.tweetcrawl.agents.utils.TweetCrawlerLogger;
 import com.tweetcrawl.ontology.Crawl;
@@ -33,6 +34,7 @@ public class AgentLauncher extends GuiAgent {
     private static final long serialVersionUID = 1L;
 	private TweetCrawlerLogger logger = new TweetCrawlerLogger(this.getClass().getName());
     private final static int numberOfTreatmentAgents = 2;
+    private BBPetterson bb = new BBPetterson(numberOfTreatmentAgents);
 
     private Codec codec = new SLCodec();
     private Ontology crawlRequestOntology = CrawlRequestOntology.getInstance();
@@ -65,8 +67,8 @@ public class AgentLauncher extends GuiAgent {
                     "com.tweetcrawl.agents.TweetCrawler", null);
             tweetCrawler.start();
             // instanciation of treatment agents
-            for (int i = 0; i < numberOfTreatmentAgents; i++) {
-                AgentController agentTraitement = container.createNewAgent("AgentTraitement",
+            for (int i = 1; i <= numberOfTreatmentAgents; i++) {
+                AgentController agentTraitement = container.createNewAgent("AgentTraitement_" + i,
                         "com.tweetcrawl.agents.AgentTraitement", null);
                 agentTraitement.start();
             }
