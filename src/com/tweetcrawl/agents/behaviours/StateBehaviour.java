@@ -94,8 +94,8 @@ public class StateBehaviour extends FSMBehaviour {
 	
 				@Override
 				public int onEnd() {
-					petterson.setTour((id % petterson.getNbDemandes()) + 1);
-					petterson.setDemande(id - 1, true);
+					petterson.setTour((id % petterson.getNbRequests()) + 1);
+					petterson.setRequest(id, true);
 					try {
 						Thread.sleep(500);
 					} catch (InterruptedException e) {
@@ -145,7 +145,7 @@ public class StateBehaviour extends FSMBehaviour {
 	
 				@Override
 				public int onEnd() {
-					petterson.setDemande(id - 1, false);
+					petterson.setRequest(id, false);
 					return isEnd ? 1 : 0;
 				}
 			}, "lectureFichier");
@@ -317,8 +317,8 @@ public class StateBehaviour extends FSMBehaviour {
 	 * @return true if there is a demande, return false otherwise
 	 */
 	private boolean noDemande() {
-		for (int i = 0; i < this.petterson.getNbDemandes(); i++) {
-			if (i != (this.id - 1) && petterson.getDemande(i) == false) {
+		for (int i = 1; i <= this.petterson.getNbRequests(); i++) {
+			if (i != this.id && petterson.getRequest(i) == false) {
 				return true;
 			}
 		}
