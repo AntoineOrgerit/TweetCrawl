@@ -22,7 +22,7 @@ import com.tweetcrawl.agents.Launcher;
 import jade.gui.GuiEvent;
 
 /**
- * GUI of the launcher agent
+ * Frame representing the GUI of the {@code Launcher} agent.
  */
 public class AgentLauncherGUI extends JFrame implements ActionListener {
 
@@ -37,9 +37,9 @@ public class AgentLauncherGUI extends JFrame implements ActionListener {
 	private JButton button;
 
 	/**
-	 * Constructor of the GUI
+	 * Constructor of the GUI frame.
 	 * 
-	 * @param agent launcher agent using the GUI
+	 * @param agent the {@code Launcher} agent using the GUI
 	 */
 	public AgentLauncherGUI(Launcher agent) {
 		this.agent = agent;
@@ -47,7 +47,7 @@ public class AgentLauncherGUI extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * Allows to generate the frame
+	 * Allows to generate the frame.
 	 */
 	private void generateFrame() {
 		Container contentPane = this.generateLayout();
@@ -62,9 +62,9 @@ public class AgentLauncherGUI extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * Allows to generate the layout of the frame
+	 * Allows to generate the layout of the frame.
 	 * 
-	 * @return the <code>Container</code> containing the layout used
+	 * @return the {@code Container} containing the layout used
 	 */
 	private Container generateLayout() {
 		GridBagLayout layout = new GridBagLayout();
@@ -74,10 +74,10 @@ public class AgentLauncherGUI extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * Allows to generate the label and the input of the container
+	 * Allows to generate the label and the input of the frame.
 	 * 
-	 * @param contentPane the <code>Container</code> where to include the label and
-	 *                    the input
+	 * @param contentPane the {@code Container} where to include the label and the
+	 *                    input
 	 */
 	private void generateLabelAndInput(Container contentPane) {
 		JPanel panel = new JPanel();
@@ -95,9 +95,9 @@ public class AgentLauncherGUI extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * Allows to generate the button of the container
+	 * Allows to generate the button of the frame.
 	 * 
-	 * @param contentPane the <code>Container</code> where to include the button
+	 * @param contentPane the {@code Container} where to include the button
 	 */
 	private void generateButton(Container contentPane) {
 		this.button = new JButton("Rechercher");
@@ -110,7 +110,8 @@ public class AgentLauncherGUI extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * Allows to set a close operation to the frame
+	 * Allows to set a close operation to the frame which is sent to the
+	 * {@code Launcher} agent.
 	 */
 	private void setCloseOperation() {
 		this.addWindowListener(new WindowAdapter() {

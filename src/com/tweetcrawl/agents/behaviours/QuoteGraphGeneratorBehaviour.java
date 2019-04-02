@@ -124,7 +124,7 @@ public class QuoteGraphGeneratorBehaviour extends CyclicBehaviour {
 			try {
 				graph.toDot();
 				if (convertDotToPng(term)) {
-					new GraphImageFrame(term, this.logger);
+					new GraphImageFrame(term);
 				} else {
 					logger.warning(
 							"Unable to display the graph. You can find the .dot file of the graph under the visualisation subdirectory.");
