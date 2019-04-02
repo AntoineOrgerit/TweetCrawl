@@ -61,7 +61,7 @@ public class Quote implements Predicate {
 	/**
 	 * Allows to set the original writer of the content.
 	 * 
-	 * @param repeater - the original writer of the quote as a String
+	 * @param original - the original writer of the quote as a String
 	 */
 	public void setOriginal(String original) {
 		this.original = original;

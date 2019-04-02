@@ -83,7 +83,7 @@ public class QuoteGraphGeneratorBehaviour extends CyclicBehaviour {
 	 * @param quotesAction the QuotesAction object to treat
 	 */
 	private void treatQuotesAction(QuotesAction quotesAction) {
-		if (quotesAction.getAction().equals("start")) {
+		if (quotesAction.getAction().equals("begin")) {
 			this.createQuoteGraphIfNotExists(quotesAction.getTerm());
 		} else {
 			if (quotesAction.getAction().equals("end")) {
@@ -144,8 +144,8 @@ public class QuoteGraphGeneratorBehaviour extends CyclicBehaviour {
 	 */
 	private boolean convertDotToPng(String term) {
 		try {
-			ProcessBuilder pb = new ProcessBuilder("dot", "-Tpng", "./visualisation/tweets_" + term + ".dot",
-					"-o./visualisation/tweets_" + term + ".png");
+			ProcessBuilder pb = new ProcessBuilder("dot", "-Tpng",
+					"./visualisation/tweets_" + term + ".dot", "-o./visualisation/tweets_" + term + ".png");
 			Process p = pb.start();
 			return p.waitFor() == 0;
 		} catch (IOException | InterruptedException e) {

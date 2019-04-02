@@ -4,6 +4,7 @@ import com.tweetcrawl.agents.behaviours.TweetCrawlerBehaviour;
 import com.tweetcrawl.agents.utils.DFServiceManager;
 import com.tweetcrawl.agents.utils.TweetCrawlerLogger;
 import com.tweetcrawl.ontology.CrawlRequestOntology;
+import com.tweetcrawl.ontology.FileOntology;
 
 import jade.content.lang.Codec;
 import jade.content.lang.sl.SLCodec;
@@ -21,13 +22,15 @@ public class TweetCrawler extends Agent {
 	/** Ontologies to be used **/
 	private Codec codec = new SLCodec();
 	private Ontology crawlRequestOntology = CrawlRequestOntology.getInstance();
+	private Ontology fileOntology = FileOntology.getInstance();
 
 	@Override
 	protected void setup() {
 		logger.info("Starting of the agent " + this.getLocalName() + "...");
 		this.getContentManager().registerLanguage(codec);
 		this.getContentManager().registerOntology(crawlRequestOntology);
-		this.addBehaviour(new TweetCrawlerBehaviour(this, this.logger));
+		this.getContentManager().registerOntology(fileOntology);
+		this.addBehaviour(new TweetCrawlerBehaviour(this, this.logger, this.codec, this.fileOntology));
 		DFServiceManager.register(this, "Tweetcrawler-service");
 		logger.info("Agent " + this.getLocalName() + " successfully started.");
 	}

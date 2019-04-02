@@ -8,12 +8,12 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 /**
  * JComponent containing the image of a graph
  */
-public class GraphImageComponent extends JComponent {
+public class GraphImageComponent extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 

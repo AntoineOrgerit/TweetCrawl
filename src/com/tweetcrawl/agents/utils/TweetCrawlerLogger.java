@@ -32,7 +32,7 @@ public class TweetCrawlerLogger implements Serializable {
 		dialog.setModal(false);
 		dialog.setContentPane(optionPane);
 		if (canBeClosed) {
-			dialog.setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		} else {
 			dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		}
@@ -51,7 +51,7 @@ public class TweetCrawlerLogger implements Serializable {
 		dialog.setIconImage((new ImageIcon("./img/twitter-logo-vector-png-clipart-1.png")).getImage());
 		dialog.setModal(false);
 		dialog.setContentPane(optionPane);
-		dialog.setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.pack();
 		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
@@ -66,7 +66,7 @@ public class TweetCrawlerLogger implements Serializable {
 		dialog.setIconImage((new ImageIcon("./img/twitter-logo-vector-png-clipart-1.png")).getImage());
 		dialog.setModal(false);
 		dialog.setContentPane(optionPane);
-		dialog.setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.pack();
 		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
