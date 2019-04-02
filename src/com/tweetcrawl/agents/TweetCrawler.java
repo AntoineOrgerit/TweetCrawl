@@ -2,13 +2,13 @@ package com.tweetcrawl.agents;
 
 import com.tweetcrawl.agents.behaviours.TweetCrawlerBehaviour;
 import com.tweetcrawl.agents.utils.DFServiceManager;
+import com.tweetcrawl.agents.utils.TweetCrawlerLogger;
 import com.tweetcrawl.ontology.CrawlRequestOntology;
 
 import jade.content.lang.Codec;
 import jade.content.lang.sl.SLCodec;
 import jade.content.onto.Ontology;
 import jade.core.Agent;
-import jade.util.Logger;
 
 /**
  * Agent allowing to get tweets using Twitter's API
@@ -16,7 +16,7 @@ import jade.util.Logger;
 public class TweetCrawler extends Agent {
 
 	private static final long serialVersionUID = 1L;
-	private Logger logger = Logger.getMyLogger(this.getClass().getName());
+	private TweetCrawlerLogger logger = new TweetCrawlerLogger(this.getClass().getName());
 
 	/** Ontologies to be used **/
 	private Codec codec = new SLCodec();
@@ -24,17 +24,17 @@ public class TweetCrawler extends Agent {
 
 	@Override
 	protected void setup() {
-		logger.config("Starting of the agent " + this.getLocalName() + "...");
+		logger.info("Starting of the agent " + this.getLocalName() + "...");
 		this.getContentManager().registerLanguage(codec);
 		this.getContentManager().registerOntology(crawlRequestOntology);
 		this.addBehaviour(new TweetCrawlerBehaviour(this, this.logger));
 		DFServiceManager.register(this, "Tweetcrawler-service");
-		logger.config("Agent " + this.getLocalName() + " successfully started.");
+		logger.info("Agent " + this.getLocalName() + " successfully started.");
 	}
 
 	@Override
 	public void doDelete() {
-		logger.warning("Shutting down the agent " + this.getLocalName());
+		logger.info("Shutting down the agent " + this.getLocalName());
 	}
 
 }

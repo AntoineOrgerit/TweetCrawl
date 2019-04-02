@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import com.tweetcrawl.agents.utils.TweetCrawlerLogger;
 import com.tweetcrawl.ontology.Crawl;
 
 import jade.content.ContentManager;
@@ -18,7 +19,6 @@ import jade.content.onto.basic.Action;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
-import jade.util.Logger;
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.Status;
@@ -33,15 +33,15 @@ import twitter4j.conf.ConfigurationBuilder;
 public class TweetCrawlerBehaviour extends CyclicBehaviour {
 
 	private static final long serialVersionUID = 1L;
-	private Logger logger;
+	private TweetCrawlerLogger logger;
 
 	/**
 	 * Constructor of the behaviour
 	 * 
-	 * @param agent  	corresponding TweetCrawler agent 
-	 * @param logger 	logger used to display errors
+	 * @param agent  corresponding TweetCrawler agent
+	 * @param logger logger used to display errors
 	 */
-	public TweetCrawlerBehaviour(Agent agent, Logger logger) {
+	public TweetCrawlerBehaviour(Agent agent, TweetCrawlerLogger logger) {
 		super(agent);
 		this.logger = logger;
 	}
@@ -61,7 +61,7 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 	/**
 	 * Allows to extract the term to search from received messages
 	 *
-	 * @return 		String containing the term to search
+	 * @return String containing the term to search
 	 */
 	private String getTermToCrawl() {
 		ACLMessage msg = myAgent.receive();
@@ -82,8 +82,8 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 	/**
 	 * Allows to generate the request to send to Twitter's API
 	 * 
-	 * @param term 		String containing the term to be searched through the request
-	 * @return 		Query containing the request to be executed
+	 * @param term String containing the term to be searched through the request
+	 * @return Query containing the request to be executed
 	 */
 	private Query generateQuery(String term) {
 		Query query = new Query(term);
@@ -95,8 +95,8 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 	/**
 	 * Allows to get the date X days ago
 	 * 
-	 * @param days 		Number X of days
-	 * @return 		String containing the date X days ago, formated as YYYY-MM-dd
+	 * @param days Number X of days
+	 * @return String containing the date X days ago, formated as YYYY-MM-dd
 	 */
 	private String getDateFromXDays(int days) {
 		LocalDate date = LocalDate.now().minusDays(days);
@@ -107,14 +107,11 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 	/**
 	 * Allows to execute a request using Twitter's API
 	 *
-	 * @param query 	Query request to be executed
-	 * @return 		QueryResult containing the result of the request
+	 * @param query Query request to be executed
+	 * @return QueryResult containing the result of the request
 	 */
 	private QueryResult executeQuery(Query query) {
 		ConfigurationBuilder cb = new ConfigurationBuilder();
-		cb.setDebugEnabled(true).setOAuthConsumerKey("0CeZ8uh64y17IHQywEawEDywX")
-				.setOAuthConsumerSecret("cZxzH3itDvcxHNc2IL1YkbXqd58TrBUUnjN10zrIWTj0fLUxMG").setOAuthAccessToken("")
-				.setOAuthAccessTokenSecret("");
 		TwitterFactory tf = new TwitterFactory(cb.build());
 		Twitter twitter = tf.getInstance();
 		QueryResult result = null;
@@ -129,8 +126,8 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 	/**
 	 * Allows to store the results of the query in a file
 	 * 
-	 * @param tweets 	QueryResult containing the result of the request
-	 * @param term   	String containing the search term, used to name the file
+	 * @param tweets QueryResult containing the result of the request
+	 * @param term   String containing the search term, used to name the file
 	 */
 	private void storeTweets(QueryResult tweets, String term) {
 		File fout = new File("./data/tweets_" + term + ".txt");

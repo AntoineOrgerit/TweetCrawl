@@ -1,5 +1,6 @@
 /bin/
 /data/
+/visualisation/
 /uml/*.bak_*
 sources.txt
 APDescription.txt

@@ -26,7 +26,7 @@ public class CrawlRequestOntology extends Ontology {
 	/**
 	 * Allows to get an instance of the ontology
 	 * 
-	 * @return 		An instance of the ontology as an <i>Ontology</i> object
+	 * @return An instance of the ontology as an <i>Ontology</i> object
 	 */
 	public static Ontology getInstance() {
 		return instance;

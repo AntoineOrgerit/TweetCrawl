@@ -13,7 +13,7 @@ public class Crawl implements AgentAction {
 	/**
 	 * Allows to get the search term
 	 * 
-	 * @return		String containing the search term
+	 * @return String containing the search term
 	 */
 	public String getTerm() {
 		return term;
@@ -22,7 +22,7 @@ public class Crawl implements AgentAction {
 	/**
 	 * Allows to define the serch term
 	 * 
-	 * @param term 		String containing the search term
+	 * @param term String containing the search term
 	 */
 	public void setTerm(String term) {
 		this.term = term;
