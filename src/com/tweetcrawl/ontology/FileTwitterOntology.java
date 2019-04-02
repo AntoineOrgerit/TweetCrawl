@@ -6,7 +6,7 @@ import jade.content.onto.OntologyException;
 import jade.content.schema.PredicateSchema;
 import jade.content.schema.PrimitiveSchema;
 
-import java.util.logging.Logger;
+import com.tweetcrawl.agents.utils.TweetCrawlerLogger;
 
 /**
  * Ontology used when informing about a new available file to a
@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 public class FileTwitterOntology extends Ontology {
 
 	private static final long serialVersionUID = 1L;
-	private Logger log = Logger.getLogger(this.getClass().getName());
+	private TweetCrawlerLogger logger = new TweetCrawlerLogger(this.getClass().getName());
 
 	public static final String ONTOLOGY_NAME = "FileName_ontology";
 
@@ -44,7 +44,7 @@ public class FileTwitterOntology extends Ontology {
 			PredicateSchema ps = (PredicateSchema) this.getSchema(FILE);
 			ps.add(TERM, (PrimitiveSchema) this.getSchema(BasicOntology.STRING));
 		} catch (OntologyException oe) {
-			log.severe("Exception during generation of the ontology !");
+			logger.severe("Exception during generation of the ontology FileTwitterOntology: " + oe);
 		}
 	}
 

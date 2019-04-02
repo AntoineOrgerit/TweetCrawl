@@ -1,12 +1,13 @@
 package com.tweetcrawl.ontology;
 
+import com.tweetcrawl.agents.utils.TweetCrawlerLogger;
+
 import jade.content.onto.BasicOntology;
 import jade.content.onto.Ontology;
 import jade.content.onto.OntologyException;
 import jade.content.schema.AgentActionSchema;
 import jade.content.schema.ObjectSchema;
 import jade.content.schema.PrimitiveSchema;
-import jade.util.Logger;
 
 /**
  * Ontology used when requesting a crawl action to a {@code TweetCrawler} agent.
@@ -14,7 +15,7 @@ import jade.util.Logger;
 public class CrawlOntology extends Ontology {
 
 	private static final long serialVersionUID = 1L;
-	private Logger logger = Logger.getMyLogger(this.getClass().getName());
+	private TweetCrawlerLogger logger = new TweetCrawlerLogger(this.getClass().getName());
 
 	public static final String ONTOLOGY_NAME = "Crawl-request-ontology";
 
@@ -42,7 +43,7 @@ public class CrawlOntology extends Ontology {
 			AgentActionSchema ps = (AgentActionSchema) this.getSchema(CRAWL);
 			ps.add(CRAWL_TERM, (PrimitiveSchema) this.getSchema(BasicOntology.STRING), ObjectSchema.MANDATORY);
 		} catch (OntologyException oe) {
-			logger.severe("Exception during generation of the ontology Crawl-request-ontology : " + oe);
+			logger.severe("Exception during generation of the ontology CrawlOntology: " + oe);
 		}
 	}
 
