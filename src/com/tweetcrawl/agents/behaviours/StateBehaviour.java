@@ -2,6 +2,7 @@ package com.tweetcrawl.agents.behaviours;
 
 import com.tweetcrawl.agents.Processor;
 import com.tweetcrawl.agents.utils.BBPetterson;
+import com.tweetcrawl.agents.utils.BBPettersonException;
 import com.tweetcrawl.agents.utils.DFServiceManager;
 import com.tweetcrawl.ontology.FileTwitter;
 import com.tweetcrawl.ontology.Quote;
@@ -34,6 +35,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class StateBehaviour extends FSMBehaviour {
+	
+	private int id;
 	private Logger logger;
 	private Codec codec;
 	private Ontology quoteOntology;
@@ -44,6 +47,8 @@ public class StateBehaviour extends FSMBehaviour {
 	private boolean isEnd;
 	private String from = "";
 	private ArrayList<String> rtTo = new ArrayList<>();
+	
+	private BBPetterson petterson;
 
 	/**
 	 * Define the differents states of agent - Reception - Wait - Demand - Access to
@@ -52,102 +57,109 @@ public class StateBehaviour extends FSMBehaviour {
 	public StateBehaviour(Agent agent, Logger logger, Codec codec, Ontology quoteOntology,
 			Ontology quoteActionOntology) {
 		super(agent);
+		this.id = Integer.parseInt(myAgent.getLocalName().split("_")[1]);
 		this.logger = logger;
 		this.codec = codec;
 		this.quoteOntology = quoteOntology;
 		this.quoteActionOntology = quoteActionOntology;
+		try {
+			this.petterson = BBPetterson.getInstance();
 
-		this.registerFirstState(new OneShotBehaviour(myAgent) {
-			boolean result;
-
-			@Override
-			public void action() {
-				result = receptionMsg();
-				if (result) {
-					fileTweet = new File("./data/tweets_" + nomFichier + ".txt");
-					envoieMsgStartGraph();
-					envoieMsgStartCloud();
-					isEnd = false;
-				}
-			}
-
-			@Override
-			public int onEnd() {
-				return result ? 1 : 0;
-			}
-
-		}, "receptionMessage");
-
-		this.registerState(new OneShotBehaviour(myAgent) {
-			@Override
-			public void action() {
-				//logger.info("Attente passive");
-			}
-
-			@Override
-			public int onEnd() {
-				BBPetterson.tour = (((Processor) myAgent).id % BBPetterson.demandes.length) + 1;
-				BBPetterson.demandes[((Processor) myAgent).id - 1] = true;
-				try {
-					Thread.sleep(500);
-				} catch (InterruptedException e) {
-					logger.severe(e.getMessage());
-				}
-				return 1;
-			}
-		}, "attente");
-
-		this.registerState(new OneShotBehaviour(myAgent) {
-			@Override
-			public void action() {
-				//BBPetterson.afficheDemande();
-			}
-
-			@Override
-			public int onEnd() {
-				return ((BBPetterson.tour == (((Processor) myAgent).id) || noDemande()) ? 1 : 0);
-			}
-		}, "demande");
-
-		this.registerState(new OneShotBehaviour(myAgent) {
-			boolean line;
-
-			@Override
-			public void action() {
-				if (fileTweet.exists()) {
-					line = getandremoveline();
-					if (line) {
-						for (String to : rtTo) {
-							envoieMsgGraph(from, to);
-						}
-						rtTo.clear();
-						envoieMsgCloud();
+			this.registerFirstState(new OneShotBehaviour(myAgent) {
+				boolean result;
+	
+				@Override
+				public void action() {
+					result = receptionMsg();
+					if (result) {
+						fileTweet = new File("./data/tweets_" + nomFichier + ".txt");
+						envoieMsgStartGraph();
+						envoieMsgStartCloud();
 						isEnd = false;
-					} else {
-						isEnd = fileTweet.delete();
-						envoieMsgEndGraph();
 					}
-				} else {
-					envoieMsgEndGraph();
-					envoieMsgEndCloud();
-					isEnd = true;
 				}
-			}
-
-			@Override
-			public int onEnd() {
-				BBPetterson.demandes[((Processor) myAgent).id - 1] = false;
-				return isEnd ? 1 : 0;
-			}
-		}, "lectureFichier");
-
-		this.registerTransition("receptionMessage", "receptionMessage", 0);
-		this.registerTransition("receptionMessage", "attente", 1);
-		this.registerTransition("attente", "demande", 1);
-		this.registerTransition("demande", "demande", 0);
-		this.registerTransition("demande", "lectureFichier", 1);
-		this.registerTransition("lectureFichier", "attente", 0);
-		this.registerTransition("lectureFichier", "receptionMessage", 1);
+	
+				@Override
+				public int onEnd() {
+					return result ? 1 : 0;
+				}
+	
+			}, "receptionMessage");
+	
+			this.registerState(new OneShotBehaviour(myAgent) {
+				@Override
+				public void action() {
+					// no action necessary
+				}
+	
+				@Override
+				public int onEnd() {
+					petterson.setTour((id % petterson.getNbDemandes()) + 1);
+					petterson.setDemande(id - 1, true);
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						logger.severe(e.getMessage());
+					}
+					return 1;
+				}
+			}, "attente");
+	
+			this.registerState(new OneShotBehaviour(myAgent) {
+				@Override
+				public void action() {
+					// no action necessary
+				}
+	
+				@Override
+				public int onEnd() {
+					return ((petterson.getTour() == id || noDemande()) ? 1 : 0);
+				}
+			}, "demande");
+	
+			this.registerState(new OneShotBehaviour(myAgent) {
+				boolean line;
+	
+				@Override
+				public void action() {
+					System.out.println(id + " is in SC");
+					if (fileTweet.exists()) {
+						line = getandremoveline();
+						if (line) {
+							for (String to : rtTo) {
+								envoieMsgGraph(from, to);
+							}
+							rtTo.clear();
+							envoieMsgCloud();
+							isEnd = false;
+						} else {
+							isEnd = fileTweet.delete();
+							envoieMsgEndGraph();
+						}
+					} else {
+						envoieMsgEndGraph();
+						envoieMsgEndCloud();
+						isEnd = true;
+					}
+				}
+	
+				@Override
+				public int onEnd() {
+					petterson.setDemande(id - 1, false);
+					return isEnd ? 1 : 0;
+				}
+			}, "lectureFichier");
+	
+			this.registerTransition("receptionMessage", "receptionMessage", 0);
+			this.registerTransition("receptionMessage", "attente", 1);
+			this.registerTransition("attente", "demande", 1);
+			this.registerTransition("demande", "demande", 0);
+			this.registerTransition("demande", "lectureFichier", 1);
+			this.registerTransition("lectureFichier", "attente", 0);
+			this.registerTransition("lectureFichier", "receptionMessage", 1);
+		} catch(BBPettersonException e) {
+			logger.severe("Exception while generating StateBehaviour: " + e);
+		}
 
 	}// end of constructor
 
@@ -305,8 +317,8 @@ public class StateBehaviour extends FSMBehaviour {
 	 * @return true if there is a demande, return false otherwise
 	 */
 	private boolean noDemande() {
-		for (int i = 0; i < BBPetterson.demandes.length; i++) {
-			if (i != (((Processor) myAgent).id - 1) && BBPetterson.demandes[i] == false) {
+		for (int i = 0; i < this.petterson.getNbDemandes(); i++) {
+			if (i != (this.id - 1) && petterson.getDemande(i) == false) {
 				return true;
 			}
 		}

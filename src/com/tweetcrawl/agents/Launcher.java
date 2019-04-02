@@ -6,6 +6,7 @@ import javax.swing.JDialog;
 
 import com.tweetcrawl.agents.ui.AgentLauncherGUI;
 import com.tweetcrawl.agents.utils.BBPetterson;
+import com.tweetcrawl.agents.utils.BBPettersonException;
 import com.tweetcrawl.agents.utils.DFServiceManager;
 import com.tweetcrawl.agents.utils.TweetCrawlerLogger;
 import com.tweetcrawl.ontology.Crawl;
@@ -33,8 +34,7 @@ public class Launcher extends GuiAgent {
 
     private static final long serialVersionUID = 1L;
 	private TweetCrawlerLogger logger = new TweetCrawlerLogger(this.getClass().getName());
-    private final static int numberOfTreatmentAgents = 2;
-    private BBPetterson bb = new BBPetterson(numberOfTreatmentAgents);
+    private static final int NB_PROCESSOR_AGENTS = 2;
 
     private Codec codec = new SLCodec();
     private Ontology crawlRequestOntology = CrawlOntology.getInstance();
@@ -46,15 +46,20 @@ public class Launcher extends GuiAgent {
     	JDialog dialog = logger.info(
 				"TweetCrawler launcher agent " + this.getLocalName() + " is launching the AMS, please wait a moment.",
 				this.getLocalName(), false);
-		this.getContentManager().registerLanguage(codec);
-		this.getContentManager().registerOntology(crawlRequestOntology);
-		this.getContentManager().registerOntology(jadeManagementOntology);
-		this.checkDirectories();
-		this.generateAgents();
-		AgentLauncherGUI gui = new AgentLauncherGUI(this);
-		logger.info("TweetCrawler launcher agent " + this.getLocalName() + " has successfully started the AMS.");
-		dialog.setVisible(false);
-		gui.setVisible(true);
+    	try {
+    		BBPetterson.createInstance(NB_PROCESSOR_AGENTS);
+    		this.getContentManager().registerLanguage(codec);
+    		this.getContentManager().registerOntology(crawlRequestOntology);
+    		this.getContentManager().registerOntology(jadeManagementOntology);
+    		this.checkDirectories();
+    		this.generateAgents();
+    		AgentLauncherGUI gui = new AgentLauncherGUI(this);
+    		logger.info("TweetCrawler launcher agent " + this.getLocalName() + " has successfully started the AMS.");
+    		dialog.setVisible(false);
+    		gui.setVisible(true);
+    	} catch(BBPettersonException e) {
+    		logger.severe("Exception during the instanciation of BBPetterson: " + e);
+    	}
     }
 
     /**
@@ -66,10 +71,9 @@ public class Launcher extends GuiAgent {
             AgentController tweetCrawler = container.createNewAgent("TweetCrawlerAgent",
                     "com.tweetcrawl.agents.TweetCrawler", null);
             tweetCrawler.start();
-            // instanciation of treatment agents
-            for (int i = 1; i <= numberOfTreatmentAgents; i++) {
-                AgentController agentTraitement = container.createNewAgent("AgentTraitement_" + i,
-                        "com.tweetcrawl.agents.AgentTraitement", null);
+            for (int i = 1; i <= NB_PROCESSOR_AGENTS; i++) {
+                AgentController agentTraitement = container.createNewAgent("ProcessorAgent_" + i,
+                        "com.tweetcrawl.agents.Processor", null);
                 agentTraitement.start();
             }
             AgentController quoteGraphGenerator = container.createNewAgent("QuoteGraphGeneratorAgent",

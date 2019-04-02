@@ -163,7 +163,6 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 		ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
 		for(DFAgentDescription dfad : DFServiceManager.getAgentsForService(myAgent, "ParseFile-service")) {
 			msg.addReceiver(dfad.getName());
-			System.out.println("Adding receiver " + dfad.getName());
 		}
 		msg.setLanguage(this.codec.getName());
 		msg.setOntology(this.fileOntology.getName());
@@ -172,7 +171,6 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 		try {
 			myAgent.getContentManager().fillContent(msg, fileTwitter);
 			myAgent.send(msg);
-			System.out.println("Message sent");
 		} catch (CodecException | OntologyException e) {
 			logger.severe("Exception while sending the term to the Treatment agents : " + e);
 		}

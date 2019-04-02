@@ -20,7 +20,7 @@ public class FileTwitterOntology extends Ontology {
 	public static final String ONTOLOGY_NAME = "FileName_ontology";
 
 	public static final String FILE = "File";
-	public static final String NAME = "name";
+	public static final String TERM = "term";
 
 	private static Ontology instance = new FileTwitterOntology();
 
@@ -42,7 +42,7 @@ public class FileTwitterOntology extends Ontology {
 		try {
 			this.add(new PredicateSchema(FILE), FileTwitter.class);
 			PredicateSchema ps = (PredicateSchema) this.getSchema(FILE);
-			ps.add(NAME, (PrimitiveSchema) this.getSchema(BasicOntology.STRING));
+			ps.add(TERM, (PrimitiveSchema) this.getSchema(BasicOntology.STRING));
 		} catch (OntologyException oe) {
 			log.severe("Exception during generation of the ontology !");
 		}

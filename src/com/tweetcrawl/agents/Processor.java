@@ -12,7 +12,7 @@ import jade.core.Agent;
 import jade.util.Logger;
 
 public class Processor extends Agent {
-    public int id;
+
     private Logger logger = Logger.getMyLogger(this.getClass().getName());
 
     /**
@@ -26,7 +26,6 @@ public class Processor extends Agent {
     @Override
     protected void setup() {
         super.setup();
-        this.id = (Integer.parseInt(getLocalName().split("_")[1]));
         logger.config("Starting of the agent " + this.getLocalName() + "...");
         this.getContentManager().registerLanguage(codec);
         this.getContentManager().registerOntology(quoteOntology);
