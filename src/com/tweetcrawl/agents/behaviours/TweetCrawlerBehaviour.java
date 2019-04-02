@@ -67,6 +67,8 @@ public class TweetCrawlerBehaviour extends CyclicBehaviour {
 				this.storeTweets(tweets, term);
 				this.sendMessageToTreatmentAgents(term);
 			}
+		} else {
+			this.block();
 		}
 	}
 

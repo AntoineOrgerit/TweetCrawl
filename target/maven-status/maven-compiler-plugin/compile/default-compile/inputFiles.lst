@@ -6,11 +6,13 @@ C:\Users\Antoine Orgerit\Documents\Cours S8\Informatique Répartie\Multi-agents\
 C:\Users\Antoine Orgerit\Documents\Cours S8\Informatique Répartie\Multi-agents\Projet\tweetcrawl\src\com\tweetcrawl\agents\AgentTraitement.java
 C:\Users\Antoine Orgerit\Documents\Cours S8\Informatique Répartie\Multi-agents\Projet\tweetcrawl\src\com\tweetcrawl\structure\Edge.java
 C:\Users\Antoine Orgerit\Documents\Cours S8\Informatique Répartie\Multi-agents\Projet\tweetcrawl\src\com\tweetcrawl\agents\utils\DFServiceManager.java
+C:\Users\Antoine Orgerit\Documents\Cours S8\Informatique Répartie\Multi-agents\Projet\tweetcrawl\src\com\tweetcrawl\agents\behaviours\StateBehaviour.java
 C:\Users\Antoine Orgerit\Documents\Cours S8\Informatique Répartie\Multi-agents\Projet\tweetcrawl\src\com\tweetcrawl\ontology\QuotesAction.java
 C:\Users\Antoine Orgerit\Documents\Cours S8\Informatique Répartie\Multi-agents\Projet\tweetcrawl\src\com\tweetcrawl\ontology\FileOntology.java
 C:\Users\Antoine Orgerit\Documents\Cours S8\Informatique Répartie\Multi-agents\Projet\tweetcrawl\src\com\tweetcrawl\agents\TweetCrawler.java
 C:\Users\Antoine Orgerit\Documents\Cours S8\Informatique Répartie\Multi-agents\Projet\tweetcrawl\src\com\tweetcrawl\agents\utils\TweetCrawlerLogger.java
 C:\Users\Antoine Orgerit\Documents\Cours S8\Informatique Répartie\Multi-agents\Projet\tweetcrawl\src\com\tweetcrawl\agents\ui\AgentLauncherGUI.java
+C:\Users\Antoine Orgerit\Documents\Cours S8\Informatique Répartie\Multi-agents\Projet\tweetcrawl\src\com\tweetcrawl\agents\utils\BBPetterson.java
 C:\Users\Antoine Orgerit\Documents\Cours S8\Informatique Répartie\Multi-agents\Projet\tweetcrawl\src\com\tweetcrawl\structure\QuoteGraph.java
 C:\Users\Antoine Orgerit\Documents\Cours S8\Informatique Répartie\Multi-agents\Projet\tweetcrawl\src\com\tweetcrawl\ontology\QuoteOntology.java
 C:\Users\Antoine Orgerit\Documents\Cours S8\Informatique Répartie\Multi-agents\Projet\tweetcrawl\src\com\tweetcrawl\agents\behaviours\QuoteGraphGeneratorBehaviour.java
