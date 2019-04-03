@@ -206,12 +206,6 @@ public class ProcessorBehaviour extends FSMBehaviour {
 		public int onEnd() {
 			petterson.setTour((id % petterson.getNbRequests()) + 1);
 			petterson.setRequest(id, true);
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				logger.severe("Exception while trying to sleep on Processor: " + e);
-				Thread.currentThread().interrupt();
-			}
 			return 1;
 		}
 	}
