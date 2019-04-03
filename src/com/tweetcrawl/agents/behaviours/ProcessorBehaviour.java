@@ -97,6 +97,38 @@ public class ProcessorBehaviour extends FSMBehaviour {
 			logger.severe("Exception during behaviour generation on Processor: " + e);
 		}
 	}
+	
+	/**
+	 * Allows to send a {@code QuotesAction} message to the
+	 * {@code QuoteGraphGenerator} indicating that the {@code Processor} agent is
+	 * either starting or ending its work on a term.
+	 * 
+	 * @param action the action of the {@code Processor} agent
+	 */
+	private void sendMessageActionGraph(String action) {
+		ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+		msg.addReceiver(DFServiceManager.getAgentsForService(myAgent, QUOTE_GRAPH_GENERATOR_SERVICE)[0].getName());
+		msg.setLanguage(codec.getName());
+		msg.setOntology(quoteActionOntology.getName());
+		QuotesAction qa = new QuotesAction();
+		qa.setTerm(nomFichier);
+		qa.setAction(action);
+		try {
+			myAgent.getContentManager().fillContent(msg, qa);
+			myAgent.send(msg);
+		} catch (CodecException | OntologyException e) {
+			logger.severe("Exception while sending the term to the TweetCrawler agent : " + e);
+		}
+	}
+	
+	/**
+	 * Will be implemented.
+	 * 
+	 * @param action the action of the {@code Processor} agent
+	 */
+	private void sendMessageActionCloud(String action) {
+		// will be implemented
+	}
 
 	/**
 	 * {@code ProcessorBehaviour} state in which the {@code Processor} agent is
@@ -121,8 +153,8 @@ public class ProcessorBehaviour extends FSMBehaviour {
 			if (result) {
 				fileTweet = new File("./data/tweets_" + nomFichier + ".txt");
 				isEnd = false;
-				sendMessageStartGraph();
-				sendMessageStartCloud();
+				sendMessageActionGraph("begin");
+				sendMessageActionCloud("begin");
 			}
 		}
 
@@ -150,34 +182,6 @@ public class ProcessorBehaviour extends FSMBehaviour {
 				}
 			}
 			return false;
-		}
-
-		/**
-		 * Allows to send a {@code QuotesAction} message to the
-		 * {@code QuoteGraphGenerator} indicating that the {@code Processor} agent is
-		 * starting to work on a term.
-		 */
-		private void sendMessageStartGraph() {
-			ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-			msg.addReceiver(DFServiceManager.getAgentsForService(myAgent, QUOTE_GRAPH_GENERATOR_SERVICE)[0].getName());
-			msg.setLanguage(codec.getName());
-			msg.setOntology(quoteActionOntology.getName());
-			QuotesAction qa = new QuotesAction();
-			qa.setTerm(nomFichier);
-			qa.setAction("begin");
-			try {
-				myAgent.getContentManager().fillContent(msg, qa);
-				myAgent.send(msg);
-			} catch (CodecException | OntologyException e) {
-				logger.severe("Exception while sending the term to the TweetCrawler agent : " + e);
-			}
-		}
-
-		/**
-		 * Will be implemented.
-		 */
-		private void sendMessageStartCloud() {
-			// will be implemented
 		}
 	}
 
@@ -287,12 +291,12 @@ public class ProcessorBehaviour extends FSMBehaviour {
 						logger.severe("Exception while closing the file " + fileTweet.getName() + ": " + e);
 					}
 					isEnd = true;
-					this.sendMessageEndGraph();
-					this.sendMessageEndCloud();
+					sendMessageActionGraph("end");
+					sendMessageActionCloud("end");
 				}
 			} else {
-				this.sendMessageEndGraph();
-				this.sendMessageEndCloud();
+				sendMessageActionGraph("end");
+				sendMessageActionCloud("end");
 				isEnd = true;
 			}
 		}
@@ -396,34 +400,6 @@ public class ProcessorBehaviour extends FSMBehaviour {
 		 * Will be implemented.
 		 */
 		private void sendMessageCloud() {
-			// will be implemented
-		}
-
-		/**
-		 * Allows to send a {@code QuotesAction} message to the
-		 * {@code QuoteGraphGenerator} indicating that the {@code Processor} agent is
-		 * ending its work on a term.
-		 */
-		private void sendMessageEndGraph() {
-			ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-			msg.addReceiver(DFServiceManager.getAgentsForService(myAgent, QUOTE_GRAPH_GENERATOR_SERVICE)[0].getName());
-			msg.setLanguage(codec.getName());
-			msg.setOntology(quoteActionOntology.getName());
-			QuotesAction qa = new QuotesAction();
-			qa.setTerm(nomFichier);
-			qa.setAction("end");
-			try {
-				myAgent.getContentManager().fillContent(msg, qa);
-				myAgent.send(msg);
-			} catch (CodecException | OntologyException e) {
-				logger.severe("Exception while sending the term to the QuoteGraphGenerator agent: " + e);
-			}
-		}
-
-		/**
-		 * Will be implemented.
-		 */
-		private void sendMessageEndCloud() {
 			// will be implemented
 		}
 	}
