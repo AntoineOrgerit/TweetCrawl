@@ -3,7 +3,7 @@ package com.tweetcrawl.agents;
 import com.tweetcrawl.agents.behaviours.QuoteGraphGeneratorBehaviour;
 import com.tweetcrawl.agents.utils.DFServiceManager;
 import com.tweetcrawl.agents.utils.TweetCrawlerLogger;
-import com.tweetcrawl.ontology.QuotesActionOntology;
+import com.tweetcrawl.ontology.ProcessorActionOntology;
 import com.tweetcrawl.ontology.QuoteOntology;
 
 import jade.content.lang.Codec;
@@ -22,14 +22,14 @@ public class QuoteGraphGenerator extends Agent {
 	/** ontologies to be used **/
 	private Codec codec = new SLCodec();
 	private Ontology quoteOntology = QuoteOntology.getInstance();
-	private Ontology quotesActionOntology = QuotesActionOntology.getInstance();
+	private Ontology processorActionOntology = ProcessorActionOntology.getInstance();
 
 	@Override
 	protected void setup() {
 		logger.info("Starting the agent " + this.getLocalName() + "...");
 		this.getContentManager().registerLanguage(codec);
 		this.getContentManager().registerOntology(quoteOntology);
-		this.getContentManager().registerOntology(quotesActionOntology);
+		this.getContentManager().registerOntology(processorActionOntology);
 		this.addBehaviour(new QuoteGraphGeneratorBehaviour(this, this.logger));
 		DFServiceManager.register(this, "QuoteGraphGenerator-service");
 		logger.info("Agent " + this.getLocalName() + " successfully started.");
