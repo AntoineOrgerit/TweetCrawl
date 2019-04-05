@@ -4,6 +4,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
 import static java.util.Map.Entry.*;
@@ -12,8 +13,10 @@ public class CloudMap {
 
     private Map<ZonedDateTime, Map<String, Integer>> datedTags;
     private int currentAgentsNumber;
+    private String term;
 
-    public CloudMap() {
+    public CloudMap(String term) {
+        this.term = term;
         datedTags = new HashMap<>();
         this.currentAgentsNumber = 1;
     }
@@ -112,10 +115,11 @@ public class CloudMap {
     }
 
     //  /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\
-    //HELLO :) J'ai voulu faire ça pour délester la méthode au dessus mais il gueule tu peux essayer de trouver pourquoi ?
+    // HELLO :) J'ai voulu faire ça pour délester la méthode au dessus mais il gueule tu peux essayer de trouver pourquoi ?
+    // à priori il y avait un problème de mappage, il n arrivait pas a associer les types de la map x)
     //  /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\
-    /*private LinkedHashMap sortHashMapElems (HashMap map) {
-
+    private LinkedHashMap sortHashMapElems (String term) {
+        Map<String,Integer> map = this.getInnerMap(term);
         LinkedHashMap sorted = map
                 .entrySet()
                 .stream()
@@ -123,7 +127,7 @@ public class CloudMap {
                 .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
 
         return sorted;
-    }*/
+    }
 
 
     //METHODE AFFICHAGE
@@ -131,4 +135,11 @@ public class CloudMap {
     //ON APPELLE TOP10 METHODE
     public void draw () {}
 
+    public Map<ZonedDateTime, Map<String, Integer>> getDatedTags() {
+        return datedTags;
+    }
+
+    public Map<String,Integer> getInnerMap(String term){
+        return this.datedTags.get(term);
+    }
 }

@@ -107,7 +107,7 @@ public class CloudGeneratorBehaviour extends CyclicBehaviour {
             cloudMap.addAgent();
             this.cloudConstruction.put(term, cloudMap);
         } else {
-            cloudMap = new CloudMap();
+            cloudMap = new CloudMap(term);
             this.cloudConstruction.put(term, cloudMap);
         }
     }
