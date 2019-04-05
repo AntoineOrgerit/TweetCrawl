@@ -1,7 +1,9 @@
-package com.tweetcrawl.agents.utils;
+package com.tweetcrawl.agents;
 
 
 import com.tweetcrawl.agents.behaviours.CloudGeneratorBehaviour;
+import com.tweetcrawl.agents.utils.DFServiceManager;
+import com.tweetcrawl.agents.utils.TweetCrawlerLogger;
 import com.tweetcrawl.ontology.CloudOntology;
 import com.tweetcrawl.ontology.ProcessorActionOntology;
 import jade.content.lang.Codec;
