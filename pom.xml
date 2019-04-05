@@ -9,11 +9,10 @@
 	<name>TweetCrawl</name>
 
 	<repositories>
-		<!-- unreachable
 		<repository>
 			<id>tilab</id>
-			<url>http://jade.tilab.com/maven/</url> 
-		</repository> -->
+			<url>https://jade.tilab.com/maven/</url> 
+		</repository>
 	</repositories>
 
 	<build>
@@ -54,17 +53,10 @@
 
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/com.tilab.jade/jade -->
-		<!-- unreachable
 		<dependency>
 			<groupId>com.tilab.jade</groupId>
 			<artifactId>jade</artifactId> 
 			<version>4.4.0</version>
-		</dependency> -->
-		<!-- alternative: https://mvnrepository.com/artifact/net.sf.ingenias/jade -->
-		<dependency>
-			<groupId>net.sf.ingenias</groupId>
-			<artifactId>jade</artifactId>
-			<version>4.3</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.twitter4j/twitter4j-core -->
 		<dependency>
