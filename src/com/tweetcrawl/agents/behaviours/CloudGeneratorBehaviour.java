@@ -1,5 +1,6 @@
 package com.tweetcrawl.agents.behaviours;
 
+import com.tweetcrawl.agents.ui.CloudImageFrame;
 import com.tweetcrawl.agents.utils.TweetCrawlerLogger;
 import com.tweetcrawl.ontology.Cloud;
 import com.tweetcrawl.ontology.ProcessorAction;
@@ -90,7 +91,7 @@ public class CloudGeneratorBehaviour extends CyclicBehaviour {
         CloudMap cloudMap = this.cloudConstruction.get(term);
         int totalAgent = cloudMap.removeAgent();
         if (totalAgent == 0) {
-            cloudMap.draw(term);
+            new CloudImageFrame(term);
         }
         this.cloudConstruction.remove(term);
     }

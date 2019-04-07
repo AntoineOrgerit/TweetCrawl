@@ -1,5 +1,8 @@
 package com.tweetcrawl.structure;
 
+import com.tweetcrawl.agents.ui.CloudImageFrame;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -141,132 +144,11 @@ public class CloudMap {
     }
 
 
-
-
-
-
-    //METHODE AFFICHAGE
-    //APPELEE A LA FIN DE LA MISE A JOUR
-    //ON APPELLE TOP10 METHODE
-    public void draw ( String term ) {
-
-        // Create a frame
-        Frame frame = new Frame();
-        frame.setTitle("Most discussed terms since 10 days about " + term);
-
-        // Add a component with a custom paint method
-        frame.add(new CustomPaintComponent());
-
-        // Add a listener to allow to close window
-        frame.addWindowListener(new WindowAdapter(){
-            public void windowClosing(WindowEvent e) {
-                frame.dispose();
-            }
-        });
-
-        // Display the frame
-        int frameWidth = 1800;
-        int frameHeight = 300;
-        frame.setSize(frameWidth, frameHeight);
-
-        frame.setVisible(true);
-    }
-
     //pour le test
     public static void main (String[] args) {
-        new CloudMap("#OTACOS").draw("#OTACOS");
+        new CloudImageFrame("#OTACOS");
     }
 
-    static class CustomPaintComponent extends Component {
 
-        private static Map<String, Integer>[] mapTest;
-
-        public void paint(Graphics g) {
-
-            //test
-            mapTest = new LinkedHashMap[10];
-            for(int i = 0; i < 10; i++) {
-                mapTest[i] = new LinkedHashMap<>();
-
-                mapTest[i].put("KOIFJSQDKLJ", 21);
-                mapTest[i].put("sfsdfsd", 18);
-                mapTest[i].put("FDSF", 16);
-                mapTest[i].put("GSDGDSG", 15);
-                mapTest[i].put("Gfdgdfg", 11);
-                mapTest[i].put("GgGgG", 8);
-                mapTest[i].put("sdgsg", 7);
-                mapTest[i].put("errrr", 7);
-                mapTest[i].put("eryu", 6);
-                mapTest[i].put("zer", 6);
-            }
-
-
-
-            Graphics2D g2d = (Graphics2D) g;
-
-            drawZones(g2d);
-            drawDays(g2d);
-
-            drawTags(g2d, mapTest);
-
-        }
-
-        private void drawZones (Graphics2D g2d) {
-
-            g2d.setColor(Color.lightGray);
-
-            for (int i = 0; i < 5; i++)
-                g2d.fillRect(i * 360, 0, 180, 300);
-        }
-
-        private void drawDays (Graphics2D g2d) {
-            for (int i = 0; i < 9; i++)
-                drawCenteredText(g2d, i * 180, 20, 180, "J - " + (9-i));
-
-            drawCenteredText(g2d, 1620, 20, 180, "TODAY");
-
-        }
-
-        private void drawTags (Graphics2D g2d, Map<String, Integer>[] tagMaps) {
-            for (int i = 0; i < 10; i++)
-                drawDailyTags(g2d, i, tagMaps[i]);
-        }
-
-        private void drawDailyTags (Graphics2D g2d, int day, Map<String, Integer> map) {
-
-            Font font = new Font("Arial", Font.PLAIN, 12);
-            g2d.setFont(font);
-            g2d.setColor(Color.BLACK);
-
-            int size, x, y = 60;
-            String word;
-
-
-            for (Map.Entry<String, Integer> entry : map.entrySet()) {
-                x = 20 + day * 180;
-                word = entry.getKey();
-                size = 12 + (int)Math.sqrt(entry.getValue() * 2);
-
-                font = new Font("Arial", Font.PLAIN, size);
-                g2d.setFont(font);
-
-                g2d.drawString(word, x, y);
-
-                y += size + 5;
-            }
-
-        }
-
-        private void drawCenteredText(Graphics2D g2d, int x, int y, int width, String text) {
-            Font font = new Font("Arial", Font.BOLD, 20);
-
-            FontMetrics metrics = g2d.getFontMetrics(font);
-            int calculatedX = x + (width - metrics.stringWidth(text)) / 2;
-
-            g2d.setColor(Color.BLACK);
-            g2d.setFont(font);
-            g2d.drawString(text, calculatedX, y);
-        }
-    }
 
 }
