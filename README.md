@@ -11,7 +11,10 @@ Ce projet dépend de l'utilitaire open source de manipulation de graphes GraphVi
 Il est donc impératif que ce dernier soit installé et que la commande soit connue après des variables d'environnement du système d'exploitation.
 
 ## Utilisation
-L'ensemble du projet et ses librairies doivent être installés avec la commande `mvn install`.
+L'ensemble du projet et ses librairies doivent être installés avec la commande `mvn install`. Il permet de télécharger les dépendences suivantes :
+- Twitter4j, permettant de consommer l'API Twitter ;
+- JADE, permettant de mettre en place et de lancer un système multi-agent.
+
 Le lancement du projet s'effectue avec la commande `mvn exec:java`.
 
 ## Diagrammes :
