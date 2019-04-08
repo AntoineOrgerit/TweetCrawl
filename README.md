@@ -10,6 +10,10 @@ ___
 Ce projet dépend de l'utilitaire open source de manipulation de graphes GraphViz, et notamment de la commande `dot`.
 Il est donc impératif que ce dernier soit installé et que la commande soit connue après des variables d'environnement du système d'exploitation.
 
+## Utilisation
+L'ensemble du projet et ses librairies doivent être installés avec la commande `mvn install`.
+Le lancement du projet s'effectue avec la commande `mvn exec:java`.
+
 ## Diagrammes :
 - ### Use-case<br> ![Use Case Diagram](uml/usecase.png)
 - ### Classes<br> ![Class Diagram](uml/classes.png)
