@@ -13,4 +13,4 @@ Il est donc impératif que ce dernier soit installé et que la commande soit con
 ## Diagrammes :
 - ### Use-case<br> ![Use Case Diagram](uml/usecase.png)
 - ### Classes<br> ![Class Diagram](uml/classes.png)
-- ### Collaboration<br> ![Collaboration Diagram](uml/colaboration.png)
+- ### Collaboration<br> ![Collaboration Diagram](uml/collaboration.png)
