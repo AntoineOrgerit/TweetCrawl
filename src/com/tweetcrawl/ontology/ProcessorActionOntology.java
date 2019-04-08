@@ -13,23 +13,23 @@ import jade.content.schema.PrimitiveSchema;
  * Ontology used when informing about a current state of treatment of a
  * {@code Processor} agent.
  */
-public class QuotesActionOntology extends Ontology {
+public class ProcessorActionOntology extends Ontology {
 
 	private static final long serialVersionUID = 1L;
 	private TweetCrawlerLogger logger = new TweetCrawlerLogger(this.getClass().getName());
 
-	public static final String ONTOLOGY_NAME = "QuotesAction-ontology";
+	public static final String ONTOLOGY_NAME = "ProcessorAction-ontology";
 
-	public static final String QUOTESACTION = "QuotesAction";
+	public static final String QUOTESACTION = "ProcessorAction";
 	public static final String QUOTESACTION_TERM = "term";
 	public static final String QUOTESACTION_ACTION = "action";
 
-	private static Ontology instance = new QuotesActionOntology();
+	private static Ontology instance = new ProcessorActionOntology();
 
 	/**
 	 * Allows to get the instance of the ontology.
 	 * 
-	 * @return {@code Ontology} as instance of the {@code QuotesActionOntology}
+	 * @return {@code Ontology} as instance of the {@code ProcessorActionOntology}
 	 *         ontology
 	 */
 	public static Ontology getInstance() {
@@ -39,15 +39,15 @@ public class QuotesActionOntology extends Ontology {
 	/**
 	 * Private constructor of the ontology.
 	 */
-	private QuotesActionOntology() {
+	private ProcessorActionOntology() {
 		super(ONTOLOGY_NAME, BasicOntology.getInstance());
 		try {
-			this.add(new PredicateSchema(QUOTESACTION), QuotesAction.class);
+			this.add(new PredicateSchema(QUOTESACTION), ProcessorAction.class);
 			PredicateSchema ps = (PredicateSchema) this.getSchema(QUOTESACTION);
 			ps.add(QUOTESACTION_TERM, (PrimitiveSchema) this.getSchema(BasicOntology.STRING), ObjectSchema.MANDATORY);
 			ps.add(QUOTESACTION_ACTION, (PrimitiveSchema) this.getSchema(BasicOntology.STRING), ObjectSchema.MANDATORY);
 		} catch (OntologyException oe) {
-			logger.severe("Exception during generation of the ontology QuotesActionOntology: " + oe);
+			logger.severe("Exception during generation of the ontology ProcessorActionOntology: " + oe);
 		}
 	}
 

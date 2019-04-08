@@ -7,7 +7,7 @@ import jade.content.Predicate;
  * current state of treatment of a {@code Processor} agent. This information
  * requires the {@code QuoteOntology} ontology to be used.
  */
-public class QuotesAction implements Predicate {
+public class ProcessorAction implements Predicate {
 
 	private static final long serialVersionUID = 1L;
 
@@ -15,7 +15,7 @@ public class QuotesAction implements Predicate {
 	private String action;
 
 	/**
-	 * Allows to get the term associated with the {@code QuotesAction} predicate.
+	 * Allows to get the term associated with the {@code ProcessorAction} predicate.
 	 * 
 	 * @return the term associated
 	 */

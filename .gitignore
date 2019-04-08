@@ -3,7 +3,11 @@
 /uml/*.bak_*
 APDescription.txt
 MTP-Main-Container.txt
-target/*
+MTPs-Main-Container.txt
+target/
 /target/
 /bin/
 sources.txt
+*.class
+.idea/
+*.iml

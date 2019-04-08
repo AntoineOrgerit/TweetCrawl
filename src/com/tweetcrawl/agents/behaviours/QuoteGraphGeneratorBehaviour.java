@@ -6,8 +6,8 @@ import java.util.Map;
 
 import com.tweetcrawl.agents.ui.GraphImageFrame;
 import com.tweetcrawl.agents.utils.TweetCrawlerLogger;
+import com.tweetcrawl.ontology.ProcessorAction;
 import com.tweetcrawl.ontology.Quote;
-import com.tweetcrawl.ontology.QuotesAction;
 import com.tweetcrawl.structure.Edge;
 import com.tweetcrawl.structure.Node;
 import com.tweetcrawl.structure.QuoteGraph;
@@ -47,8 +47,8 @@ public class QuoteGraphGeneratorBehaviour extends CyclicBehaviour {
 	public void action() {
 		ContentElement element = this.getContentOfMessage();
 		if (element != null) {
-			if (element instanceof QuotesAction) {
-				this.treatQuotesAction((QuotesAction) element);
+			if (element instanceof ProcessorAction) {
+				this.treatQuotesAction((ProcessorAction) element);
 			} else {
 				if (element instanceof Quote) {
 					this.addQuoteToGraph((Quote) element);
@@ -79,16 +79,16 @@ public class QuoteGraphGeneratorBehaviour extends CyclicBehaviour {
 	}
 
 	/**
-	 * Allows to treat {@code QuotesAction} messages content.
+	 * Allows to treat {@code ProcessorAction} messages content.
 	 * 
-	 * @param quotesAction the {@code QuotesAction} to treat
+	 * @param processorAction the {@code ProcessorAction} to treat
 	 */
-	private void treatQuotesAction(QuotesAction quotesAction) {
-		if (quotesAction.getAction().equals("begin")) {
-			this.createQuoteGraphIfNotExists(quotesAction.getTerm());
+	private void treatQuotesAction(ProcessorAction processorAction) {
+		if (processorAction.getAction().equals("begin")) {
+			this.createQuoteGraphIfNotExists(processorAction.getTerm());
 		} else {
-			if (quotesAction.getAction().equals("end")) {
-				this.removeAgentFromQuoteGraph(quotesAction.getTerm());
+			if (processorAction.getAction().equals("end")) {
+				this.removeAgentFromQuoteGraph(processorAction.getTerm());
 			}
 		}
 	}
