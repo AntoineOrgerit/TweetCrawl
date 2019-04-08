@@ -23,6 +23,7 @@ public class CloudMap {
     private Map<ZonedDateTime, Map<String, Integer>> datedTags;
     private int currentAgentsNumber;
     private String term;
+    private CloudImageFrame frame;
 
     public CloudMap(String term) {
         this.term = term;
@@ -84,7 +85,11 @@ public class CloudMap {
         return --this.currentAgentsNumber;
     }
 
-    public Map<String, Integer>[] getTopTags() {
+    public void draw() {
+        frame = new CloudImageFrame(this.term, getTopTags());
+    }
+
+    private Map<String, Integer>[] getTopTags() {
 
         trimOlderTags();
 
@@ -112,6 +117,7 @@ public class CloudMap {
                         .stream()
                         .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
                         .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));*/
+
 
                 sortedTags = sortHashMapElems(this.term);  // Pas sur que ce soit comme ça qu'il faut faire... on verra :shrug:
 
@@ -146,7 +152,25 @@ public class CloudMap {
 
     //pour le test
     public static void main (String[] args) {
-        new CloudImageFrame("#OTACOS");
+
+        //test
+        Map<String, Integer>[] mapTest = new LinkedHashMap[10];
+        for(int i = 0; i < 10; i++) {
+            mapTest[i] = new LinkedHashMap<>();
+
+            mapTest[i].put("KOIFJSQDKLJ", 21);
+            mapTest[i].put("sfsdfsd", 18);
+            mapTest[i].put("FDSF", 16);
+            mapTest[i].put("GSDGDSG", 15);
+            mapTest[i].put("Gfdgdfg", 11);
+            mapTest[i].put("GgGgG", 8);
+            mapTest[i].put("sdgsg", 7);
+            mapTest[i].put("errrr", 7);
+            mapTest[i].put("eryu", 6);
+            mapTest[i].put("zer", 6);
+        }
+
+        new CloudImageFrame("#OTACOS", mapTest);
     }
 
 

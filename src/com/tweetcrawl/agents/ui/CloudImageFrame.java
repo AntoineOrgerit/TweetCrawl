@@ -8,13 +8,15 @@ import java.util.Map;
 public class CloudImageFrame extends JFrame {
 
     private static final long serialVersionUID = 1L;
+    private Map<String, Integer>[] topTags;
 
     /**
      * Constructor of the frame.
      *
      * @param term the term associated with the graph that has to be displayed
      */
-    public CloudImageFrame(String term) {
+    public CloudImageFrame(String term, Map<String, Integer>[] topTags) {
+        this.topTags = topTags;
         ImageIcon icon = new ImageIcon("./img/twitter-logo-vector-png-clipart-1.png");
         ImageIcon content = new ImageIcon("./visualisation/tweets_" + term + ".png");
         this.setIconImage(icon.getImage());
@@ -28,38 +30,17 @@ public class CloudImageFrame extends JFrame {
         this.setVisible(true);
     }
 
-    static class CustomPaintComponent extends JComponent {
-
-        private static Map<String, Integer>[] mapTest;
+    private class CustomPaintComponent extends JComponent {
 
         @Override
         public void paint(Graphics g) {
-
-            //test
-            mapTest = new LinkedHashMap[10];
-            for(int i = 0; i < 10; i++) {
-                mapTest[i] = new LinkedHashMap<>();
-
-                mapTest[i].put("KOIFJSQDKLJ", 21);
-                mapTest[i].put("sfsdfsd", 18);
-                mapTest[i].put("FDSF", 16);
-                mapTest[i].put("GSDGDSG", 15);
-                mapTest[i].put("Gfdgdfg", 11);
-                mapTest[i].put("GgGgG", 8);
-                mapTest[i].put("sdgsg", 7);
-                mapTest[i].put("errrr", 7);
-                mapTest[i].put("eryu", 6);
-                mapTest[i].put("zer", 6);
-            }
-
-
 
             Graphics2D g2d = (Graphics2D) g;
 
             drawZones(g2d);
             drawDays(g2d);
 
-            drawTags(g2d, mapTest);
+            drawTags(g2d, topTags);
 
         }
 
