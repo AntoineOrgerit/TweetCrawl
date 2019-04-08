@@ -53,7 +53,7 @@ public class ProcessorBehaviour extends FSMBehaviour {
     private File fileTweet;
     private boolean isEnd;
     private String from = "";
-    private String datetime = "";
+    private String datetweet = "";
     private ArrayList<String> rtTo = new ArrayList<>();
     private ArrayList<String> hashTags = new ArrayList<>();
 
@@ -280,7 +280,7 @@ public class ProcessorBehaviour extends FSMBehaviour {
                         this.sendMessageGraph(from, to);
                     }
                     for (String tag : hashTags) {
-                        this.sendMessageCloud(datetime, tag);
+                        this.sendMessageCloud(datetweet, tag);
                     }
                     rtTo.clear();
                     hashTags.clear();
@@ -360,7 +360,7 @@ public class ProcessorBehaviour extends FSMBehaviour {
             Matcher matcherDatetime = patternDatetime.matcher(recherche);
             Matcher matcherHashtag = patternHashtag.matcher(recherche);
             if (matcherDatetime.find()) {
-                datetime = matcherDatetime.group(1);
+                datetweet = matcherDatetime.group(1);
             }
             while (matcherHashtag.find()) {
                 hashTags.add(matcherHashtag.group());

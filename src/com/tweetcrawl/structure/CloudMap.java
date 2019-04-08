@@ -82,10 +82,11 @@ public class CloudMap {
     }
 
     public int removeAgent() {
-        return --this.currentAgentsNumber;
+        return  -- this.currentAgentsNumber;
     }
 
     public void draw() {
+
         frame = new CloudImageFrame(this.term, getTopTags());
     }
 
@@ -112,14 +113,14 @@ public class CloudMap {
             if (datedTags.containsKey(tenLastDays[i])) {
 
                 //Sorting tags
-                /*sortedTags = datedTags.get(tenLastDays[i])
+                sortedTags = datedTags.get(tenLastDays[i])
                         .entrySet()
                         .stream()
                         .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
-                        .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));*/
+                        .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
 
 
-                sortedTags = sortHashMapElems(this.term);  // Pas sur que ce soit comme ça qu'il faut faire... on verra :shrug:
+               // sortedTags = sortHashMapElems(this.term);  // Pas sur que ce soit comme ça qu'il faut faire... on verra :shrug:
 
                 topCount = 0;
 
@@ -133,12 +134,11 @@ public class CloudMap {
                 }
             }
         }
-
         return topList;
 
     }
 
-    private LinkedHashMap sortHashMapElems (String term) {
+/*    private LinkedHashMap sortHashMapElems (String term) {
         Map<String,Integer> map = this.getInnerMap(term);
         LinkedHashMap sorted = map
                 .entrySet()
@@ -147,11 +147,11 @@ public class CloudMap {
                 .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
 
         return sorted;
-    }
+    }*/
 
 
     //pour le test
-    public static void main (String[] args) {
+   /* public static void main (String[] args) {
 
         //test
         Map<String, Integer>[] mapTest = new LinkedHashMap[10];
@@ -171,7 +171,7 @@ public class CloudMap {
         }
 
         new CloudImageFrame("#OTACOS", mapTest);
-    }
+    }*/
 
 
 

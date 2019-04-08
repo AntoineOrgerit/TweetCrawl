@@ -41,7 +41,7 @@ public class CloudOntology extends Ontology {
     private CloudOntology(){
         super(ONTOLOGY_NAME, BasicOntology.getInstance());
         try {
-            this.add(new PredicateSchema(CLOUD), Quote.class);
+            this.add(new PredicateSchema(CLOUD),Cloud.class);
             PredicateSchema cs = (PredicateSchema) this.getSchema(CLOUD);
             cs.add(CLOUD_TERM, (PrimitiveSchema) this.getSchema(BasicOntology.STRING), ObjectSchema.MANDATORY);
             cs.add(CLOUD_DATE, (PrimitiveSchema) this.getSchema(BasicOntology.STRING), ObjectSchema.MANDATORY);

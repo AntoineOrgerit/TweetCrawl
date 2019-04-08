@@ -92,8 +92,9 @@ public class CloudGeneratorBehaviour extends CyclicBehaviour {
         int totalAgent = cloudMap.removeAgent();
         if (totalAgent == 0) {
             cloudMap.draw();
+            this.cloudConstruction.remove(term);
         }
-        this.cloudConstruction.remove(term);
+
     }
 
     /**

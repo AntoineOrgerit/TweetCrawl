@@ -35,6 +35,7 @@ public class Processor extends Agent {
         logger.info("Starting of the agent " + this.getLocalName() + "...");
         this.getContentManager().registerLanguage(codec);
         this.getContentManager().registerOntology(quoteOntology);
+        this.getContentManager().registerOntology(cloudOntology);
         this.getContentManager().registerOntology(quoteActionOntology);
         this.getContentManager().registerOntology(fileTwitter);
         addBehaviour(
