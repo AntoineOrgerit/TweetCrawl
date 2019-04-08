@@ -18,7 +18,7 @@ public class QuoteGraph {
 	private int currentAgentsNumber;
 
 	/**
-	 * Constructor of the graph
+	 * Constructor of the graph.
 	 * 
 	 * @param name the name of the graph as the term of tweets searched
 	 */

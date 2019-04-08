@@ -80,13 +80,8 @@ public class TweetCrawlerLogger implements Serializable {
 		JOptionPane optionPane = new JOptionPane(message, JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION, null,
 				new Object[] {}, null);
 		dialog.setTitle("Error");
-		dialog.setIconImage(this.image.getImage());
-		dialog.setModal(false);
 		dialog.setContentPane(optionPane);
-		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		dialog.pack();
-		dialog.setLocationRelativeTo(null);
-		dialog.setVisible(true);
+		this.setDefaultSettings(dialog);
 	}
 
 	/**
@@ -101,9 +96,19 @@ public class TweetCrawlerLogger implements Serializable {
 		JOptionPane optionPane = new JOptionPane(message, JOptionPane.WARNING_MESSAGE, JOptionPane.DEFAULT_OPTION, null,
 				new Object[] {}, null);
 		dialog.setTitle("Warning");
+		dialog.setContentPane(optionPane);
+		this.setDefaultSettings(dialog);
+	}
+
+	/**
+	 * Allows to set the default settings to the output frames.
+	 * 
+	 * @param dialog the {@code JDialog} object containg the message displayed to
+	 *               the user
+	 */
+	private void setDefaultSettings(JDialog dialog) {
 		dialog.setIconImage(this.image.getImage());
 		dialog.setModal(false);
-		dialog.setContentPane(optionPane);
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.pack();
 		dialog.setLocationRelativeTo(null);

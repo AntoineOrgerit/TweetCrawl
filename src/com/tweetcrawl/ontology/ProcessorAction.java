@@ -44,7 +44,7 @@ public class ProcessorAction implements Predicate {
 	/**
 	 * Allows to define the action linked to the current state of treatment.
 	 * 
-	 * @param term the current state action
+	 * @param action the current state action
 	 */
 	public void setAction(String action) {
 		this.action = action;
